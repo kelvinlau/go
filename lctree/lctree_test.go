@@ -1,6 +1,9 @@
 package lctree
 
-import "testing"
+import (
+	"math/rand"
+	"testing"
+)
 
 func TestLctree(t *testing.T) {
 	//   0      4
@@ -72,4 +75,22 @@ func TestLctree(t *testing.T) {
 	testQuery(4, 2, 7)
 	testQuery(3, 3, 4)
 	testQuery(0, 0, 3)
+}
+
+func BenchmarkLctree(b *testing.B) {
+	n := 10000
+	nodes := make([]Node, n)
+	a := func(i int) *Node {
+		return &nodes[i]
+	}
+	for k := 0; k < b.N; k++ {
+		x := a(rand.Intn(n))
+		y := a(rand.Intn(n))
+		if Root(x) == Root(y) {
+			Cut(x)
+		} else {
+			Rotate(y)
+			Link(x, y)
+		}
+	}
 }
