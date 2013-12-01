@@ -45,3 +45,23 @@ func TestModularSystem(t *testing.T) {
 		t.Fatalf("Expected %d, got %d.", 52, x)
 	}
 }
+
+func TestModularLog(t *testing.T) {
+	test := func(a, b, m int64) {
+		if !IsPrime(m) {
+			t.Fatalf("x%d", m)
+		}
+		if x := ModularLog(a, b, m); x != -1 {
+			if c := ModularPower(a, x, m); c != b {
+				t.Fatalf("ModularLog(%d, %d, %d) got %d, but %d^%d%%%d = %d.",
+					a, b, m, x, a, x, m, c)
+			}
+		} else {
+			t.Logf("ModularLog(%d, %d, %d) = -1.", a, b, m)
+		}
+	}
+	test(3, 2, 7)
+	test(13, 4, 17)
+	test(23, 23, 100003)
+	test(56, 7, 10007)
+}

@@ -1,5 +1,10 @@
 package number
 
+import (
+	"math"
+	"sort"
+)
+
 // Returns x ^ y % r.
 func ModularPower(x, y, r int64) int64 {
 	z := int64(1)
@@ -65,4 +70,34 @@ func modularSystem(m, a, n, b int64) int64 {
 
 func mod(x, y int64) int64 {
 	return (x%y + y) % y
+}
+
+type pair struct {
+	p int64
+	j int
+}
+type pairs []pair
+
+func (a pairs) Len() int           { return len(a) }
+func (a pairs) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+func (a pairs) Less(i, j int) bool { return a[i].p < a[j].p }
+
+// ModularLog returns x such that a ^ x % m == b.
+func ModularLog(a, b, m int64) int64 {
+	s := int(math.Ceil(math.Sqrt(float64(m))))
+	ts := make(pairs, s)
+	for j, p := 0, int64(1); j < s; j, p = j+1, p*a%m {
+		ts[j] = pair{p, j}
+	}
+	sort.Sort(ts)
+
+	c := ModularInvert(ModularPower(a, int64(s), m), m) // c = a^(-m).
+	for i := 0; i < s; i++ {
+		k := sort.Search(s, func(k int) bool { return ts[k].p >= b })
+		if k < s && ts[k].p == b {
+			return int64(i*s + ts[k].j)
+		}
+		b = b * c % m
+	}
+	return -1
 }
