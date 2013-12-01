@@ -20,10 +20,10 @@ func TestGCD(t *testing.T) {
 			t.Fatalf("GCD of %d %d should be %d, got %d.", x, y, e, g)
 		}
 	}
-	test(100, 26, 2)
-	test(1, 20, 1)
 	test(3, 4, 1)
+	test(1, 20, 1)
 	test(15, 25, 5)
+	test(100, 26, 2)
 }
 
 func TestExGCD(t *testing.T) {
@@ -34,8 +34,14 @@ func TestExGCD(t *testing.T) {
 				x, y, a, b, g, a*x+b*y)
 		}
 	}
-	test(100, 26)
-	test(1, 20)
 	test(3, 4)
+	test(1, 20)
 	test(15, 25)
+	test(100, 26)
+}
+
+func TestModularSystem(t *testing.T) {
+	if x := ModularSystem([]int64{3, 5, 7}, []int64{1, 2, 3}); x != 52 {
+		t.Fatalf("Expected %d, got %d.", 52, x)
+	}
 }
