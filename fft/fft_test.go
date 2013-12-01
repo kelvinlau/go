@@ -1,8 +1,8 @@
 package fft
 
 import (
-	"number"
-	"testing"
+	"github.com/kelvinlau/go/number"
+	"github.com/kelvinlau/go/testing"
 )
 
 func TestNewPoly(t *testing.T) {

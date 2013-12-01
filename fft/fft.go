@@ -1,6 +1,6 @@
 package fft
 
-import "number"
+import "github.com/kelvinlau/go/number"
 
 const (
 	modular = 1004535809
