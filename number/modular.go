@@ -109,7 +109,7 @@ func ModularLog(a, b, m int64) int64 {
 	for j, p := 0, int64(1); j < s; j, p = j+1, p*a%m {
 		ts[j] = pair{p, j}
 	}
-	sort.Sort(ts)
+	sort.Stable(ts)
 
 	c := ModularInvert(ModularPower(a, int64(s), m), m) // c = a^(-m).
 	for i := 0; i < s; i++ {
