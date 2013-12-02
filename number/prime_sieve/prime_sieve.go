@@ -29,7 +29,7 @@ func IsPrime(n int) bool {
 	if n < Max {
 		return fp[n] == n
 	}
-	for i := 0; ps[i]*ps[i] <= n && i < len(ps); i++ {
+	for i := 0; i < len(ps) && ps[i]*ps[i] <= n; i++ {
 		if n%ps[i] == 0 {
 			return false
 		}

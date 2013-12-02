@@ -5,14 +5,34 @@ import (
 	"sort"
 )
 
+// Returns x * y % r.
+func ModularMultiply(x, y, r int64) int64 {
+	if r <= 0x7fffffff {
+		return x * y % r
+	}
+
+	if x < y {
+		x, y = y, x
+	}
+	z := int64(0)
+	for y > 0 {
+		if y&1 != 0 {
+			z = (z + x) % r
+		}
+		x = x * 2 % r
+		y >>= 1
+	}
+	return z
+}
+
 // Returns x ^ y % r.
 func ModularPower(x, y, r int64) int64 {
 	z := int64(1)
 	for y > 0 {
 		if y&1 != 0 {
-			z = z * x % r
+			z = ModularMultiply(z, x, r)
 		}
-		x = x * x % r
+		x = ModularMultiply(x, x, r)
 		y >>= 1
 	}
 	return z
