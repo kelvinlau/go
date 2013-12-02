@@ -94,4 +94,7 @@ func TestDivisors(t *testing.T) {
 }
 
 func BenchmarkFactorize(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		Factorize(rand.Int63n(1 << 61))
+	}
 }
