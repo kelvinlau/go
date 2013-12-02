@@ -67,7 +67,7 @@ func testRLB(t *testing.T, pt *PTree, l, r, v, e int) {
 	}
 }
 
-func BenchmarkLarge(b *testing.B) {
+func BenchmarkPTree(b *testing.B) {
 	n := 100000
 	a := make([]int, n)
 	lim := 1000000
