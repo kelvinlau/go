@@ -2,6 +2,7 @@ package prime_random
 
 import (
 	"math/rand"
+	"sort"
 
 	"github.com/kelvinlau/go/number"
 )
@@ -76,19 +77,45 @@ func MillerRabinK(n int64, k int) bool {
 }
 
 // Factorize factorizes n, returns all prime factors.
-func Factorize(n int64) (ps []int64) {
+func Factorize(n int64) (fs []int64) {
 	if n == 1 {
 		return
 	}
 	if MillerRabin(n) {
-		ps = append(ps, n)
+		fs = append(fs, n)
 	} else {
 		d := PollarRho(n)
-		ps = append(ps, Factorize(d)...)
-		ps = append(ps, Factorize(n/d)...)
+		fs = append(fs, Factorize(d)...)
+		fs = append(fs, Factorize(n/d)...)
 	}
 	return
 }
+
+// Divisors return all divisors of n.
+func Divisors(n int64) (ds []int64) {
+	fs := Factorize(n)
+	sort.Sort(factors(fs))
+
+	ds = append(ds, 1)
+	for i, j := 0, 0; i < len(fs); i = j {
+		for j < len(fs) && fs[i] == fs[j] {
+			j++
+		}
+		p := fs[i]
+		k := j - i
+		o := len(ds)
+		for z := 0; z < k*o; z++ {
+			ds = append(ds, ds[len(ds)-o]*p)
+		}
+	}
+	return
+}
+
+type factors []int64
+
+func (fs factors) Len() int           { return len(fs) }
+func (fs factors) Swap(i, j int)      { fs[i], fs[j] = fs[j], fs[i] }
+func (fs factors) Less(i, j int) bool { return fs[i] < fs[j] }
 
 func abs(n int64) int64 {
 	if n < 0 {

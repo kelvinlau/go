@@ -71,5 +71,27 @@ func TestFactorize(t *testing.T) {
 	test((1<<28 - 57) * (1<<28 - 89))
 }
 
+func TestDivisors(t *testing.T) {
+	test := func(n int64) {
+		ds := Divisors(n)
+		t.Logf("Divisors(%d) = %v.", n, ds)
+		for _, d := range ds {
+			if n%d != 0 {
+				t.Fatalf("%d is not dividible by %d.", n, d)
+			}
+		}
+	}
+
+	for n := int64(1); n < 1000; n++ {
+		test(n)
+	}
+	test(123456789123456)
+	test(1<<48 - 257)
+	test(1<<60 - 171)
+	test(1<<60 - 173)
+	test(1<<61 - 1)
+	test((1<<28 - 57) * (1<<28 - 89))
+}
+
 func BenchmarkFactorize(b *testing.B) {
 }
