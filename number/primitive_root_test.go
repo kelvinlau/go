@@ -1,6 +1,9 @@
 package number
 
-import "testing"
+import (
+	"math/rand"
+	"testing"
+)
 
 func TestPrimitiveRoot(t *testing.T) {
 	for n := int64(2); n < 100; n++ {
@@ -16,8 +19,6 @@ func TestPrimitiveRoot(t *testing.T) {
 
 func BenchmarkPrimitiveRoot(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		for n := int64(2); n < 10000; n++ {
-			_ = PrimitiveRoot(n)
-		}
+		PrimitiveRoot(int64(rand.Intn(1000000)))
 	}
 }
