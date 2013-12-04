@@ -3,9 +3,14 @@ package number
 import "testing"
 
 func TestModularPower(t *testing.T) {
-	if ModularPower(2, 4, 11) != 5 {
-		t.Fatalf("2^4%11 should be %d, got %d.", 5, ModularPower(2, 4, 11))
+	test := func(a, b, m, e int64) {
+		if g := ModularPower(a, b, m); g != e {
+			t.Fatalf("%d ^ %d %% %d should be %d, got %d.", a, b, m, e, g)
+		}
 	}
+
+	test(2, 4, 11, 5)
+	test(123456789123456, 321654987654321, 456789123456765, 243638565486786)
 }
 
 func TestModularInvert(t *testing.T) {
