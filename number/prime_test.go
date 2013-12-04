@@ -20,7 +20,7 @@ func testEquals(a, b []int64, t *testing.T) {
 	}
 	for i := 0; i < len(a); i++ {
 		if a[i] != b[i] {
-			t.Fatalf("Wrong element %d: got %d, want %d", i, a[i], b[i])
+			t.Errorf("Wrong element %d: got %d, want %d", i, a[i], b[i])
 		}
 	}
 }

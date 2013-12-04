@@ -17,7 +17,7 @@ func TestLctree(t *testing.T) {
 	}
 	testEqual := func(a, b *Node) {
 		if a != b {
-			t.Fatalf("Expected %p, got %p.", a, b)
+			t.Errorf("Expected %p, got %p.", a, b)
 		}
 	}
 	Link(a(0), a(1))
@@ -65,7 +65,7 @@ func TestLctree(t *testing.T) {
 
 	testQuery := func(i, j, e int) {
 		if v := Query(a(i), a(j)); v != e {
-			t.Fatalf("Query(%d, %d) should be %d, got %d.", i, j, e, v)
+			t.Errorf("Query(%d, %d) should be %d, got %d.", i, j, e, v)
 		}
 	}
 	Add(a(4), a(2), 1)

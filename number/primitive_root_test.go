@@ -10,10 +10,10 @@ func TestPrimitiveRoot(t *testing.T) {
 		t.Logf("Primitive root of %d is %d.", n, PrimitiveRoot(n))
 	}
 	if PrimitiveRoot(6) != 0 {
-		t.Fatalf("Primitive root of %d is %d, got %d.", 6, 0, PrimitiveRoot(6))
+		t.Errorf("Primitive root of %d is %d, got %d.", 6, 0, PrimitiveRoot(6))
 	}
 	if PrimitiveRoot(90) != 11 {
-		t.Fatalf("Primitive root of %d is %d, got %d.", 90, 11, PrimitiveRoot(90))
+		t.Errorf("Primitive root of %d is %d, got %d.", 90, 11, PrimitiveRoot(90))
 	}
 }
 

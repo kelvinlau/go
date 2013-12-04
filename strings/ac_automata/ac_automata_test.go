@@ -20,6 +20,6 @@ func TestAcAutomata(t *testing.T) {
 	}
 	a.Build()
 	if g := a.Run(f); g != e {
-		t.Fatalf("Expected %d matches, got %d.", e, g)
+		t.Errorf("Expected %d matches, got %d.", e, g)
 	}
 }

@@ -5,7 +5,7 @@ import "testing"
 func TestModularPower(t *testing.T) {
 	test := func(a, b, m, e int64) {
 		if g := ModularPower(a, b, m); g != e {
-			t.Fatalf("%d ^ %d %% %d should be %d, got %d.", a, b, m, e, g)
+			t.Errorf("%d ^ %d %% %d should be %d, got %d.", a, b, m, e, g)
 		}
 	}
 
@@ -15,14 +15,14 @@ func TestModularPower(t *testing.T) {
 
 func TestModularInvert(t *testing.T) {
 	if ModularInvert(2, 11) != 6 {
-		t.Fatalf("2^-1%11 should be %d, got %d.", 6, ModularInvert(2, 11))
+		t.Errorf("2^-1%11 should be %d, got %d.", 6, ModularInvert(2, 11))
 	}
 }
 
 func TestGCD(t *testing.T) {
 	test := func(x, y, e int64) {
 		if g := GCD(x, y); g != e {
-			t.Fatalf("GCD of %d %d should be %d, got %d.", x, y, e, g)
+			t.Errorf("GCD of %d %d should be %d, got %d.", x, y, e, g)
 		}
 	}
 	test(3, 4, 1)
@@ -35,7 +35,7 @@ func TestExGCD(t *testing.T) {
 	test := func(x, y int64) {
 		a, b, g := ExGCD(x, y)
 		if a*x+b*y != g || g != GCD(x, y) {
-			t.Fatalf("ExGCD of %d %d got %d, %d, %d, calculated gcd = %d.",
+			t.Errorf("ExGCD of %d %d got %d, %d, %d, calculated gcd = %d.",
 				x, y, a, b, g, a*x+b*y)
 		}
 	}
@@ -47,7 +47,7 @@ func TestExGCD(t *testing.T) {
 
 func TestModularSystem(t *testing.T) {
 	if x := ModularSystem([]int64{3, 5, 7}, []int64{1, 2, 3}); x != 52 {
-		t.Fatalf("Expected %d, got %d.", 52, x)
+		t.Errorf("Expected %d, got %d.", 52, x)
 	}
 }
 
@@ -58,7 +58,7 @@ func TestModularLog(t *testing.T) {
 		}
 		if x := ModularLog(a, b, m); x != -1 {
 			if c := ModularPower(a, x, m); c != b {
-				t.Fatalf("ModularLog(%d, %d, %d) got %d, but %d^%d%%%d = %d.",
+				t.Errorf("ModularLog(%d, %d, %d) got %d, but %d^%d%%%d = %d.",
 					a, b, m, x, a, x, m, c)
 			}
 		} else {

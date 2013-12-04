@@ -11,7 +11,7 @@ func TestPollarRho(t *testing.T) {
 	test := func(n int64) {
 		d := PollarRho(n)
 		if d <= 1 || d >= n || n%d != 0 {
-			t.Fatalf("PollarRho(%d) got %d.", n, d)
+			t.Errorf("PollarRho(%d) got %d.", n, d)
 		} else {
 			t.Logf("PollarRho(%d) got %d.", n, d)
 		}
@@ -29,7 +29,7 @@ func TestPollarRho(t *testing.T) {
 func TestMillerRabin(t *testing.T) {
 	test := func(n int64, e bool) {
 		if g := MillerRabin(n); g != e {
-			t.Fatalf("MillerRabin(%d) got %v, expected %v.", n, g, e)
+			t.Errorf("MillerRabin(%d) got %v, expected %v.", n, g, e)
 		}
 	}
 
@@ -51,12 +51,12 @@ func TestFactorize(t *testing.T) {
 		m := int64(1)
 		for _, p := range ps {
 			if !MillerRabin(p) {
-				t.Fatalf("Non-prime factor %d of %d.", p, n)
+				t.Errorf("Non-prime factor %d of %d.", p, n)
 			}
 			m *= p
 		}
 		if n != m {
-			t.Fatalf("Product of %v = %d, != %d.", ps, m, n)
+			t.Errorf("Product of %v = %d, != %d.", ps, m, n)
 		}
 	}
 
@@ -77,7 +77,7 @@ func TestDivisors(t *testing.T) {
 		t.Logf("Divisors(%d) = %v.", n, ds)
 		for _, d := range ds {
 			if n%d != 0 {
-				t.Fatalf("%d is not dividible by %d.", n, d)
+				t.Errorf("%d is not dividible by %d.", n, d)
 			}
 		}
 	}

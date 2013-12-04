@@ -10,7 +10,7 @@ func TestNewPoly(t *testing.T) {
 	p := NewPoly([]int64{1, 0, 1})
 	t.Logf("p: %#v", p)
 	if len(p) != 8 {
-		t.Fatalf("Wrong length: %d", len(p))
+		t.Errorf("Wrong length: %d", len(p))
 	}
 }
 
@@ -25,10 +25,10 @@ func TestMul(t *testing.T) {
 
 func TestGolden(t *testing.T) {
 	if !number.IsPrime(modular) {
-		t.Fatalf("%d is not a prime", modular)
+		t.Errorf("%d is not a prime", modular)
 	}
 	if !number.IsPrimitiveRoot(modular, omega) {
-		t.Fatalf("%d is not a primitive root of %d", omega, modular)
+		t.Errorf("%d is not a primitive root of %d", omega, modular)
 	}
 }
 
@@ -49,11 +49,11 @@ func TestFFT(t *testing.T) {
 
 func testEquals(a, b Poly, t *testing.T) {
 	if len(a) != len(b) {
-		t.Fatalf("Wrong length: %d", len(a))
+		t.Errorf("Wrong length: %d", len(a))
 	}
 	for i := 0; i < len(a); i++ {
 		if a[i] != b[i] {
-			t.Fatalf("Wrong element %d: got %d, want %d", i, a[i], b[i])
+			t.Errorf("Wrong element %d: got %d, want %d", i, a[i], b[i])
 		}
 	}
 }

@@ -63,7 +63,7 @@ func TestLarge(t *testing.T) {
 
 func testRLB(t *testing.T, pt *PTree, l, r, v, e int) {
 	if g := pt.RangeLB(l, r, v); g != e {
-		t.Fatalf("RLB of %d in [%d, %d) should be %d, got %d.", v, l, r, e, g)
+		t.Errorf("RLB of %d in [%d, %d) should be %d, got %d.", v, l, r, e, g)
 	}
 }
 
