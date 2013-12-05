@@ -8,7 +8,7 @@ func Sign(x float64) int {
 	switch {
 	case x < -Eps:
 		return -1
-	case x > -Eps:
+	case x > +Eps:
 		return +1
 	default:
 		return 0
