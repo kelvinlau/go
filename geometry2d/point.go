@@ -70,3 +70,12 @@ func Rotate(a, b Point, alpha float64) Point {
 	b.Y += a.X*s + a.Y*c
 	return b
 }
+
+// ShadowLength returns the length of shadow projected onto the give angle.
+func ShadowLength(alpha float64, a, b Point) float64 {
+	dx := a.X - b.X
+	dy := a.Y - b.Y
+	c := math.Cos(alpha)
+	s := math.Sin(alpha)
+	return math.Abs(dx*c + dy*s)
+}

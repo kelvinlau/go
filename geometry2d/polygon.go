@@ -88,3 +88,54 @@ func ConvexHull(ps []Point) (qs []Point) {
 	}
 	return
 }
+
+// RotateCalipers returns the min covering rectangle area & perimeter of a
+// convex hull, using rotating calipers algorithm, O(n).
+func RotateCalipers(ps []Point) (area, peri float64) {
+	area, peri = math.Inf(1), math.Inf(1)
+	b := [4]int{}
+	q := func(i int) *Point {
+		return &ps[b[i]]
+	}
+	r := func(i int) *Point {
+		return &ps[(b[i]+1)%len(ps)]
+	}
+	for i, p := range ps {
+		if q(0).Y > p.Y || q(0).Y == p.Y && q(0).X > p.X {
+			b[0] = i
+		}
+		if q(1).X < p.X || q(1).X == p.X && q(1).Y > p.Y {
+			b[1] = i
+		}
+		if q(2).Y < p.Y || q(2).Y == p.Y && q(2).X < p.X {
+			b[2] = i
+		}
+		if q(3).X > p.X || q(3).X == p.X && q(3).Y < p.Y {
+			b[3] = i
+		}
+	}
+
+	alpha := float64(0)
+	for k := 0; k < len(ps)+5; k++ {
+		bi := -1
+		minGap := math.Inf(1)
+		for i := 0; i < 4; i++ {
+			gap := Fix(Angle(*q(i), *r(i)) - (alpha + float64(i)*math.Pi/2))
+			if gap < minGap {
+				minGap = gap
+				bi = i
+			}
+		}
+		b[bi]++
+		if b[bi] == len(ps) {
+			b[bi] = 0
+		}
+		alpha = Fix(alpha + minGap)
+
+		a := ShadowLength(alpha+math.Pi/2, *q(0), *q(2))
+		b := ShadowLength(alpha, *q(1), *q(3))
+		area = math.Min(area, a*b)
+		peri = math.Min(peri, a+a+b+b)
+	}
+	return
+}

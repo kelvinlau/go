@@ -53,3 +53,20 @@ func TestConvexHull(t *testing.T) {
 	qs := ConvexHull(ps)
 	testEqual(t, es, qs)
 }
+
+func TestRotateCalipers(t *testing.T) {
+	ps := []Point{
+		{0, 0},
+		{1, 0},
+		{2, 1},
+		{0, 1},
+	}
+	area1, peri1 := 2.0, 6.0
+	area, peri := RotateCalipers(ps)
+	if Sign(area-area1) != 0 {
+		t.Errorf("Expected area %f, got %f.", area1, area)
+	}
+	if Sign(peri-peri1) != 0 {
+		t.Errorf("Expected peri %f, got %f.", peri1, peri)
+	}
+}
