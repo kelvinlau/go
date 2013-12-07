@@ -45,3 +45,20 @@ func RelationCircleLine(c Circle, l Line) int {
 func RelationCircleLineSeg(c Circle, l LineSeg) int {
 	return Sign(DistLineSegPoint(l, c.Point) - c.R)
 }
+
+// HasCommonPointCircleTriangle returns true iff c and t share common points.
+func HasCommonPointCircleTriangle(c Circle, t Triangle) bool {
+	for _, p := range t {
+		if RelationCirclePoint(c, p) <= 0 {
+			return true
+		}
+	}
+	for i, _ := range t {
+		j := (i + 1) % 3
+		l := LineSeg{t[i], t[j]}
+		if RelationCircleLineSeg(c, l) <= 0 {
+			return true
+		}
+	}
+	return InsidePolygon(t[:], c.Point)
+}
