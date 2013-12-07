@@ -87,3 +87,30 @@ func Triangulate(ps []Point) (ts []Triangle) {
 	}
 	return
 }
+
+// TrianglesIntersectionArea returns the intersection area of 2 triangles.
+func TrianglesIntersectionArea(a, b Triangle) float64 {
+	ps := []Point{}
+	ts := []Triangle{a, b}
+	for t := 0; t < 2; t++ {
+		for i := 0; i < 3; i++ {
+			if InsideTriangleExclusive(ts[t][0], ts[t][1], ts[t][2], ts[1-t][i]) {
+				ps = append(ps, ts[1-t][i])
+			}
+		}
+	}
+	for i := 0; i < 3; i++ {
+		for j := 0; j < 3; j++ {
+			l0 := Line{ts[0][i], ts[0][(i+1)%3]}
+			l1 := Line{ts[1][j], ts[1][(j+1)%3]}
+			if !Parallel(l0, l1) {
+				ps = append(ps, IntersectionPoint(l0, l1))
+			}
+		}
+	}
+	if len(ps) < 3 {
+		return 0.0
+	}
+	AngularSort(ps)
+	return AreaPolygon(ps)
+}
