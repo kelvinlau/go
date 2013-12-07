@@ -1,5 +1,7 @@
 package geometry2d
 
+import "math"
+
 // Circle with center and radius.
 type Circle struct {
 	Point
@@ -61,4 +63,45 @@ func HasCommonPointCircleTriangle(c Circle, t Triangle) bool {
 		}
 	}
 	return InsidePolygon(t[:], c.Point)
+}
+
+// IntersectionPointCircleLine returns the intersection points of c and l.
+// Results can be of size 0, 1, or 2.
+func IntersectionPointCircleLine(c Circle, l Line) []Point {
+	a := l.P
+	b := l.Q
+	dx := b.X - a.X
+	dy := b.Y - a.Y
+	sdr := Sqr(dx) + Sqr(dy)
+	a.X -= c.X
+	a.Y -= c.Y
+	b.X -= c.X
+	b.Y -= c.Y
+	d := a.X*b.Y - b.X*a.Y
+	disc := Sqr(c.R)*sdr - Sqr(d)
+	if Sign(disc) < 0 {
+		return []Point{}
+	}
+	if Sign(disc) == 0 {
+		disc = 0
+	} else {
+		disc = math.Sqrt(disc)
+	}
+	s := 0.0
+	if dy > 0 {
+		s = +1
+	} else {
+		s = -1
+	}
+	x := disc * dx * s
+	y := disc * math.Abs(dy)
+	a.X = (+d*dy+x)/sdr + c.X
+	b.X = (+d*dy-x)/sdr + c.X
+	a.Y = (-d*dx+y)/sdr + c.Y
+	b.Y = (-d*dx-y)/sdr + c.Y
+	if Sign(disc) > 0 {
+		return []Point{a, b}
+	} else {
+		return []Point{a}
+	}
 }
