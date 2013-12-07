@@ -79,3 +79,30 @@ func ShadowLength(alpha float64, a, b Point) float64 {
 	s := math.Sin(alpha)
 	return math.Abs(dx*c + dy*s)
 }
+
+// PointSlice is a slice of points.
+type PointSlice []Point
+
+// ByX is a sort.Interface that sort points by X then by Y.
+type ByX struct{ PointSlice }
+
+// ByY is a sort.Interface that sort points by Y then by X.
+type ByY struct{ PointSlice }
+
+func (s ByX) Less(i, j int) bool {
+	ps := s.PointSlice
+	return Sign(ps[i].X-ps[j].X) < 0 || Sign(ps[i].X-ps[j].X) == 0 && Sign(ps[i].Y-ps[j].Y) < 0
+}
+
+func (s ByY) Less(i, j int) bool {
+	ps := s.PointSlice
+	return Sign(ps[i].Y-ps[j].Y) < 0 || Sign(ps[i].Y-ps[j].Y) == 0 && Sign(ps[i].X-ps[j].X) < 0
+}
+
+func (ps PointSlice) Len() int {
+	return len(ps)
+}
+
+func (ps PointSlice) Swap(i, j int) {
+	ps[i], ps[j] = ps[j], ps[i]
+}

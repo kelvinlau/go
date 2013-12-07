@@ -139,3 +139,59 @@ func RotateCalipers(ps []Point) (area, peri float64) {
 	}
 	return
 }
+
+// InsidePolygon returns true iff a strickly inside polygon ps.
+func InsidePolygon(ps []Point, a Point) bool {
+	sum := 0.0
+	for i := 0; i < len(ps); i++ {
+		j := (i + 1) % len(ps)
+		if OnLineSeg(LineSeg{ps[i], ps[j]}, a) {
+			return false
+		}
+		angle := math.Acos(Dot(a, ps[i], ps[j]) / Dist(a, ps[i]) / Dist(a, ps[j]))
+		sum += float64(Sign(Cross(a, ps[i], ps[j]))) * angle
+	}
+	return Sign(sum) > 0
+}
+
+// LineSegInsidePolygon returns true iff l strickly inside ps.
+func LineSegInsidePolygon(ps []Point, l LineSeg) bool {
+	for i := 0; i < len(ps); i++ {
+		j := (i + 1) % len(ps)
+		m := LineSeg{ps[i], ps[j]}
+		if OnLineSegExclusive(l, ps[i]) {
+			return false
+		}
+		if IntersectedExclusive(l, m) {
+			return false
+		}
+	}
+	return InsidePolygon(ps, MidPoint(l.P, l.Q))
+}
+
+// IntersectedConvexLineSeg returns true iff l intersect with convex hull ps.
+func IntersectedConvexLineSeg(ps []Point, l LineSeg) bool {
+	if len(ps) < 3 {
+		return false
+	}
+	qs := []Point{l.P, l.Q}
+	for i := 0; i < len(ps); i++ {
+		if OnLineSeg(l, ps[i]) {
+			qs = append(qs, ps[i])
+		} else {
+			j := (i + 1) % len(ps)
+			m := LineSeg{ps[i], ps[j]}
+			if ok, p := LineSegIntersectionPoint(l, m); ok {
+				qs = append(qs, p)
+			}
+		}
+	}
+
+	sort.Sort(ByX{qs})
+	for i := 0; i+1 < len(qs); i++ {
+		if InsidePolygon(ps, MidPoint(qs[i], qs[i+1])) {
+			return true
+		}
+	}
+	return false
+}

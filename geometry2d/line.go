@@ -15,7 +15,7 @@ type Ray Line
 
 // Parallel reports whether u and v are parallel.
 func Parallel(u, v Line) bool {
-  return Sign((u.P.X - u.Q.X) * (v.P.Y - v.Q.Y) - (v.P.X - v.Q.X) * (u.P.Y - u.Q.Y)) == 0
+	return Sign((u.P.X-u.Q.X)*(v.P.Y-v.Q.Y)-(v.P.X-v.Q.X)*(u.P.Y-u.Q.Y)) == 0
 }
 
 // Side returns 1 if p and q are on the same side of m; 0 if at least 1 of p, q
@@ -49,10 +49,22 @@ func IntersectedExclusive(u, v LineSeg) bool {
 // IntersectionPoint returns the intersection point of u and v, assuming u and v
 // are not parallel to each other.
 func IntersectionPoint(u, v Line) Point {
-	n := (u.P.Y - v.P.Y) * (v.Q.X - v.P.X) - (u.P.X - v.P.X) * (v.Q.Y - v.P.Y)
-	d := (u.Q.X - u.P.X) * (v.Q.Y - v.P.Y) - (u.Q.Y - u.P.Y) * (v.Q.X - v.P.X)
+	n := (u.P.Y-v.P.Y)*(v.Q.X-v.P.X) - (u.P.X-v.P.X)*(v.Q.Y-v.P.Y)
+	d := (u.Q.X-u.P.X)*(v.Q.Y-v.P.Y) - (u.Q.Y-u.P.Y)*(v.Q.X-v.P.X)
 	r := n / d
-  return Point{u.P.X + r * (u.Q.X - u.P.X), u.P.Y + r * (u.Q.Y - u.P.Y)}
+	return Point{u.P.X + r*(u.Q.X-u.P.X), u.P.Y + r*(u.Q.Y-u.P.Y)}
+}
+
+// LineSegIntersectionPoint returns true and the intersection point of u and v,
+// otherwise false and an arbitrary point.
+func LineSegIntersectionPoint(u, v LineSeg) (ok bool, p Point) {
+	if Parallel(Line(u), Line(v)) {
+		ok = false
+		return
+	}
+	p = IntersectionPoint(Line(u), Line(v))
+	ok = OnLineSeg(u, p) && OnLineSeg(v, p)
+	return
 }
 
 // OnLineSeg returns true iff p is on the line segment l, including the end
