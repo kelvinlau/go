@@ -186,7 +186,7 @@ func CutArea(ps []Point, l Line) float64 {
 	return AreaPolygon(qs)
 }
 
-// Trianglulate returns n-2 triangles, which are the triangulation of a polygon.
+// Triangulate returns n-2 triangles, which are the triangulation of a polygon.
 func Triangulate(ps []Point) (ts []Triangle) {
 	if len(ps) < 3 {
 		return
@@ -226,4 +226,17 @@ func Triangulate(ps []Point) (ts []Triangle) {
 		}
 	}
 	return
+}
+
+// PolygonIntersectionArea returns the intersection area of 2 simple polygons.
+func PolygonIntersectionArea(ps, qs []Point) float64 {
+	ts1 := Triangulate(ps)
+	ts2 := Triangulate(qs)
+	area := 0.0
+	for _, t1 := range ts1 {
+		for _, t2 := range ts2 {
+			area += TrianglesIntersectionArea(t1, t2)
+		}
+	}
+	return area
 }
