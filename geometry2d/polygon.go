@@ -1,6 +1,7 @@
 package geometry2d
 
 import (
+	"container/list"
 	"math"
 	"sort"
 )
@@ -183,4 +184,46 @@ func CutArea(ps []Point, l Line) float64 {
 		}
 	}
 	return AreaPolygon(qs)
+}
+
+// Trianglulate returns n-2 triangles, which are the triangulation of a polygon.
+func Triangulate(ps []Point) (ts []Triangle) {
+	if len(ps) < 3 {
+		return
+	}
+	qs := list.New()
+	for _, p := range ps {
+		qs.PushBack(p)
+	}
+	a := qs.Front()
+	b := a.Next()
+	c := b.Next()
+	for ; c != nil; a, b, c = b, b.Next(), b.Next().Next() {
+		A, B, C := a.Value.(Point), b.Value.(Point), c.Value.(Point)
+		if Sign(Cross(A, B, C)) <= 0 {
+			continue
+		}
+		ok := true
+		for d := qs.Front(); d != nil; d = d.Next() {
+			if d == a {
+				d = d.Next().Next()
+				continue
+			}
+			D := d.Value.(Point)
+			if InsideTriangleInclusive(A, B, C, D) {
+				ok = false
+				break
+			}
+		}
+		if !ok {
+			continue
+		}
+		ts = append(ts, Triangle{A, B, C})
+		qs.Remove(b)
+		b = a
+		if b != qs.Front() {
+			b = b.Prev()
+		}
+	}
+	return
 }
