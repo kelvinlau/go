@@ -165,3 +165,36 @@ func IntersectedConvexLineSeg(ps []Point, l LineSeg) bool {
 	}
 	return false
 }
+
+// CutArea returns the area of the part of convex hull ps on the positive side
+// of l.
+func CutArea(ps []Point, l Line) float64 {
+	i1, i2 := -1, -1
+	for i := 0; i < len(ps); i++ {
+		j := (i + 1) % len(ps)
+		v := LineSeg{ps[i], ps[j]}
+		if Parallel(Line(v), l) {
+			continue
+		}
+		if cp := IntersectionPoint(Line(v), l); cp == ps[i] || OnLineSegExclusive(v, cp) {
+			if i1 == -1 {
+				i1 = i
+			} else {
+				i2 = i
+			}
+		}
+	}
+	qs := []Point{}
+	for i := 0; i < len(ps); i++ {
+		if Sign(Cross(l.P, l.Q, ps[i])) == 0 {
+			qs = append(qs, ps[i])
+		}
+		if i == i1 {
+			qs = append(qs, ps[i1])
+		}
+		if i == i2 {
+			qs = append(qs, ps[i2])
+		}
+	}
+	return AreaPolygon(qs)
+}
