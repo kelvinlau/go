@@ -146,3 +146,14 @@ func Translate(l Line, e float64, s int) Line {
 	l.Q.Y += y
 	return l
 }
+
+// Lines is a slices of Lines.
+type Lines []Line
+
+func (ls Lines) Len() int { return len(ls) }
+func (ls Lines) Less(i, j int) bool {
+	u, v := ls[i], ls[j]
+	c := Sign((u.P.X-u.Q.X)*(v.P.Y-v.Q.Y) - (v.P.X-v.Q.X)*(u.P.Y-u.Q.Y))
+	return c < 0 || c == 0 && Sign(Cross(u.P, u.Q, v.P)) < 0
+}
+func (ls Lines) Swap(i, j int) { ls[i], ls[j] = ls[j], ls[i] }

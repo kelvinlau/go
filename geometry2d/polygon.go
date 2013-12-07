@@ -51,23 +51,23 @@ func ConvexHull(ps []Point) (qs []Point) {
 func RotateCalipers(ps []Point) (area, peri float64) {
 	area, peri = math.Inf(1), math.Inf(1)
 	b := [4]int{}
-	q := func(i int) *Point {
-		return &ps[b[i]]
+	q := func(i int) Point {
+		return ps[b[i]]
 	}
-	r := func(i int) *Point {
-		return &ps[(b[i]+1)%len(ps)]
+	r := func(i int) Point {
+		return ps[(b[i]+1)%len(ps)]
 	}
 	for i, p := range ps {
-		if q(0).Y > p.Y || q(0).Y == p.Y && q(0).X > p.X {
+		if LessY(p, q(0)) {
 			b[0] = i
 		}
-		if q(1).X < p.X || q(1).X == p.X && q(1).Y > p.Y {
+		if LessX(q(1), p) {
 			b[1] = i
 		}
-		if q(2).Y < p.Y || q(2).Y == p.Y && q(2).X < p.X {
+		if LessY(q(2), p) {
 			b[2] = i
 		}
-		if q(3).X > p.X || q(3).X == p.X && q(3).Y < p.Y {
+		if LessX(p, q(3)) {
 			b[3] = i
 		}
 	}
@@ -77,7 +77,7 @@ func RotateCalipers(ps []Point) (area, peri float64) {
 		bi := -1
 		minGap := math.Inf(1)
 		for i := 0; i < 4; i++ {
-			gap := Fix(Angle(*q(i), *r(i)) - (alpha + float64(i)*math.Pi/2))
+			gap := Fix(Angle(q(i), r(i)) - (alpha + float64(i)*math.Pi/2))
 			if gap < minGap {
 				minGap = gap
 				bi = i
@@ -89,8 +89,8 @@ func RotateCalipers(ps []Point) (area, peri float64) {
 		}
 		alpha = Fix(alpha + minGap)
 
-		a := ShadowLength(alpha+math.Pi/2, *q(0), *q(2))
-		b := ShadowLength(alpha, *q(1), *q(3))
+		a := ShadowLength(alpha+math.Pi/2, q(0), q(2))
+		b := ShadowLength(alpha, q(1), q(3))
 		area = math.Min(area, a*b)
 		peri = math.Min(peri, a+a+b+b)
 	}
@@ -239,4 +239,37 @@ func PolygonIntersectionArea(ps, qs []Point) float64 {
 		}
 	}
 	return area
+}
+
+// LineIntersectionsConvexHull returns the convex hull from all intersection
+// points of given lines in O(n).
+func LineIntersectionsConvexHull(ls []Line) []Point {
+	for i := range ls {
+		if LessX(ls[i].Q, ls[i].P) {
+			ls[i].P, ls[i].Q = ls[i].Q, ls[i].P
+		}
+	}
+	sort.Sort(Lines(ls))
+	l := []Line{}
+	for i, j := 0, 0; i < len(ls); i = j {
+		for j < len(ls) && Parallel(ls[i], ls[j]) {
+			j++
+		}
+		l = append(l, ls[i])
+		if j-i > 1 {
+			l = append(l, ls[j-1])
+		}
+	}
+	l = append(l, l[0], l[1])
+
+	ps := []Point{}
+	for i, j := 0, 0; i < len(l); i++ {
+		for j < len(l) && Parallel(l[i], l[j]) {
+			j++
+		}
+		for k := j; k < len(l) && Parallel(l[j], l[k]); k++ {
+			ps = append(ps, IntersectionPoint(l[i], l[k]))
+		}
+	}
+	return ConvexHull(ps)
 }

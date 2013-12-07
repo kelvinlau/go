@@ -100,6 +100,16 @@ func AngularSort(p []Point) {
 	sort.Sort(acmp)
 }
 
+// LessX returns if a comes before b by X then by Y.
+func LessX(a, b Point) bool {
+	return Sign(a.X-b.X) < 0 || Sign(a.X-b.X) == 0 && Sign(a.Y-b.Y) < 0
+}
+
+// LessY returns if a comes before b by Y then by X.
+func LessY(a, b Point) bool {
+	return Sign(a.Y-b.Y) < 0 || Sign(a.Y-b.Y) == 0 && Sign(a.X-b.X) < 0
+}
+
 // PointSlice is a slice of points.
 type PointSlice []Point
 
@@ -109,13 +119,7 @@ type ByX struct{ PointSlice }
 // ByY is a sort.Interface that sort points by Y then by X.
 type ByY struct{ PointSlice }
 
-func (s ByX) Less(i, j int) bool {
-	ps := s.PointSlice
-	return Sign(ps[i].X-ps[j].X) < 0 || Sign(ps[i].X-ps[j].X) == 0 && Sign(ps[i].Y-ps[j].Y) < 0
-}
-func (s ByY) Less(i, j int) bool {
-	ps := s.PointSlice
-	return Sign(ps[i].Y-ps[j].Y) < 0 || Sign(ps[i].Y-ps[j].Y) == 0 && Sign(ps[i].X-ps[j].X) < 0
-}
+func (s ByX) Less(i, j int) bool    { return LessX(s.PointSlice[i], s.PointSlice[j]) }
+func (s ByY) Less(i, j int) bool    { return LessY(s.PointSlice[i], s.PointSlice[j]) }
 func (ps PointSlice) Len() int      { return len(ps) }
 func (ps PointSlice) Swap(i, j int) { ps[i], ps[j] = ps[j], ps[i] }
