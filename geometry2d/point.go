@@ -2,6 +2,7 @@ package geometry2d
 
 import (
 	"math"
+	"sort"
 )
 
 // Point is a point on 2d plane.
@@ -80,6 +81,30 @@ func ShadowLength(alpha float64, a, b Point) float64 {
 	return math.Abs(dx*c + dy*s)
 }
 
+type angularCmp struct {
+	o Point
+	p []Point
+}
+
+func (a *angularCmp) Less(i, j int) bool {
+	c := Sign(Cross(a.o, a.p[i], a.p[j]))
+	return c > 0 || c == 0 && Dist(a.o, a.p[i]) < Dist(a.o, a.p[j])
+}
+func (a *angularCmp) Len() int      { return len(a.p) }
+func (a *angularCmp) Swap(i, j int) { a.p[i], a.p[j] = a.p[j], a.p[i] }
+
+// AngularSort sorts the points by angular in place.
+func AngularSort(p []Point) {
+	o := p[0]
+	for i := 1; i < len(p); i++ {
+		if p[i].X < o.X || p[i].X == o.X && p[i].Y < o.Y {
+			o = p[i]
+		}
+	}
+	acmp := &angularCmp{o, p}
+	sort.Sort(acmp)
+}
+
 // PointSlice is a slice of points.
 type PointSlice []Point
 
@@ -93,16 +118,9 @@ func (s ByX) Less(i, j int) bool {
 	ps := s.PointSlice
 	return Sign(ps[i].X-ps[j].X) < 0 || Sign(ps[i].X-ps[j].X) == 0 && Sign(ps[i].Y-ps[j].Y) < 0
 }
-
 func (s ByY) Less(i, j int) bool {
 	ps := s.PointSlice
 	return Sign(ps[i].Y-ps[j].Y) < 0 || Sign(ps[i].Y-ps[j].Y) == 0 && Sign(ps[i].X-ps[j].X) < 0
 }
-
-func (ps PointSlice) Len() int {
-	return len(ps)
-}
-
-func (ps PointSlice) Swap(i, j int) {
-	ps[i], ps[j] = ps[j], ps[i]
-}
+func (ps PointSlice) Len() int      { return len(ps) }
+func (ps PointSlice) Swap(i, j int) { ps[i], ps[j] = ps[j], ps[i] }
