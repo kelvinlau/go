@@ -108,3 +108,20 @@ func IntersectedLineSegRay(u LineSeg, v Ray) (bool, Point) {
 	}
 	return false, Point{}
 }
+
+// Perpendicular returns a line that goes through a point and meets l at a right
+// angle.
+func Perpendicular(l Line, p Point) Line {
+	return Line{p, Point{p.X + l.P.Y - l.Q.Y, p.Y + l.Q.X - l.P.X}}
+}
+
+// Pedal return a point where l meets its perpendicular goes through p.
+func Pedal(l Line, p Point) Point {
+	return IntersectionPoint(l, Perpendicular(l, p))
+}
+
+// Mirror returns a point that reflect p on line l.
+func Mirror(l Line, p Point) Point {
+	q := Pedal(l, p)
+	return Point{q.X*2 - p.X, q.Y*2 - p.Y}
+}
