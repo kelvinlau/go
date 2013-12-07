@@ -126,13 +126,6 @@ func Mirror(l Line, p Point) Point {
 	return Point{q.X*2 - p.X, q.Y*2 - p.Y}
 }
 
-// Perpencenter returns the meeting point of 3 altitudes of the triangle abc.
-func Perpencenter(a, b, c Point) Point {
-	u := Perpendicular(Line{b, c}, a)
-	v := Perpendicular(Line{a, c}, b)
-	return IntersectionPoint(u, v)
-}
-
 // PerpendicularBisector returns a line perpendicular to ab and split them
 // equally.
 func PerpendicularBisector(a, b Point) Line {

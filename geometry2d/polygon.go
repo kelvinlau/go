@@ -5,20 +5,6 @@ import (
 	"sort"
 )
 
-// Calculates the area of a triangle given the lengths of sides.
-func AreaHeron(a, b, c float64) float64 {
-	s := (a + b + c) / 2
-	if a > s || b > s || c > s {
-		return -1
-	}
-	return math.Sqrt(s * (s - a) * (s - b) * (s - c))
-}
-
-// Calculates the area of a triangle given 3 points.
-func AreaTriangle(a, b, c Point) float64 {
-	return math.Abs(Cross(a, b, c)) / 2
-}
-
 // Calculates the area of a polygon.
 func AreaPolygon(a []Point) float64 {
 	area := float64(0)

@@ -40,11 +40,6 @@ func DeltaAngle(a, b, c Point) float64 {
 	return math.Acos(Dot(b, a, c) / (Dist(a, b) * Dist(b, c)))
 }
 
-// Sharp returns true if ABC is a sharp triangle
-func Sharp(a, b, c Point) bool {
-	return Sign(Dot(a, b, c)) > 0 && Sign(Dot(b, a, c)) > 0 && Sign(Dot(c, a, b)) > 0
-}
-
 // Fix returns a angle capped in [0, 2*PI)
 func Fix(a float64) float64 {
 	if Sign(a) < 0 {
