@@ -105,3 +105,36 @@ func IntersectionPointCircleLine(c Circle, l Line) []Point {
 		return []Point{a}
 	}
 }
+
+// IntersectionPointCircleCircle returns the intersection points of two circles,
+// Results can be of size 0, 1, or 2.
+func IntersectionPointCircleCircle(c1, c2 Circle) []Point {
+	mx := c2.X - c1.X
+	sx := c2.X + c1.X
+	mx2 := Sqr(mx)
+	my := c2.Y - c1.Y
+	sy := c2.Y + c1.Y
+	my2 := Sqr(mx)
+	sq := mx2 + my2
+	d := -(sq - Sqr(c1.R-c2.R)) * (sq - Sqr(c1.R+c2.R))
+	if Sign(sq) == 0 || Sign(d) < 0 {
+		return []Point{}
+	}
+	if Sign(d) == 0 {
+		d = 0
+	} else {
+		d = math.Sqrt(d)
+	}
+	x := mx*((c1.R+c2.R)*(c1.R-c2.R)+mx*sx) + sx*my2
+	y := my*((c1.R+c2.R)*(c1.R-c2.R)+my*sy) + sy*mx2
+	dx := mx * d
+	dy := my * d
+	sq *= 2
+	a := Point{(x + dy) / sq, (y - dx) / sq}
+	b := Point{(x - dy) / sq, (y + dx) / sq}
+	if Sign(d) > 0 {
+		return []Point{a, b}
+	} else {
+		return []Point{a}
+	}
+}
