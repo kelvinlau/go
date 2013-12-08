@@ -1,6 +1,9 @@
 package geometry2d
 
-import "math"
+import (
+	"math"
+	"math/rand"
+)
 
 // Circle with center and radius.
 type Circle struct {
@@ -164,4 +167,60 @@ func CircleTagents(c Circle, p Point) (a, b Point) {
 	b.X = c.X + (p.X-c.X)*para + (p.Y-c.Y)*perp
 	b.Y = c.Y + (p.Y-c.Y)*para - (p.X-c.X)*perp
 	return
+}
+
+// Circle2 returns the minimum circle that covers 2 points.
+func Circle2(a, b Point) Circle {
+	return Circle{MidPoint(a, b), Dist(a, b) / 2}
+}
+
+// Circle3 returns the minimum circle that covers 3 points.
+func Circle3(a, b, c Point) Circle {
+	if d := Circle2(a, b); RelationCirclePoint(d, c) <= 0 {
+		return d
+	}
+	if d := Circle2(b, c); RelationCirclePoint(d, a) <= 0 {
+		return d
+	}
+	if d := Circle2(c, a); RelationCirclePoint(d, b) <= 0 {
+		return d
+	}
+	o := CircumCircleCenter(a, b, c)
+	r := Dist(o, a)
+	return Circle{o, r}
+}
+
+// MinCircleCover returns the minimum circle that covers n points.
+func MinCircleCover(ps []Point) Circle {
+	if len(ps) == 1 {
+		return Circle{ps[0], 0}
+	}
+	if len(ps) == 2 {
+		return Circle2(ps[0], ps[1])
+	}
+	for i := range ps {
+		j := rand.Intn(i + 1)
+		ps[i], ps[j] = ps[j], ps[i]
+	}
+	qs := [4]*Point{&ps[0], &ps[1], &ps[2], &ps[3]}
+	c := Circle3(ps[0], ps[1], ps[2])
+	for {
+		b := &ps[0]
+		for i := 1; i < len(ps); i++ {
+			if Dist(ps[i], c.Point) > Dist(*b, c.Point) {
+				b = &ps[i]
+			}
+		}
+		if RelationCirclePoint(c, *b) <= 0 {
+			return c
+		}
+		qs[3] = b
+		for i := 0; i < 3; i++ {
+			qs[i], qs[3] = qs[3], qs[i]
+			c = Circle3(*qs[0], *qs[1], *qs[2])
+			if RelationCirclePoint(c, *qs[3]) <= 0 {
+				break
+			}
+		}
+	}
 }
