@@ -249,7 +249,7 @@ func LineIntersectionsConvexHull(ls []Line) []Point {
 			ls[i].P, ls[i].Q = ls[i].Q, ls[i].P
 		}
 	}
-	sort.Sort(Lines(ls))
+	sort.Sort(LinesAngleComparator(ls))
 	l := []Line{}
 	for i, j := 0, 0; i < len(ls); i = j {
 		for j < len(ls) && Parallel(ls[i], ls[j]) {
