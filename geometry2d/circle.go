@@ -36,7 +36,7 @@ func CircumCircleCenter(A, B, C Point) Point {
 
 // RelationCirclePoint returns 0 if p is on c, -1 if inside, +1 if outside.
 func RelationCirclePoint(c Circle, p Point) int {
-	return Sign(c.R - Dist(p, c.Point))
+	return Sign(Dist(p, c.Point) - c.R)
 }
 
 // RelationCircleLine returns 0 if l is tangent to c, -1 if intersected, +1 if
