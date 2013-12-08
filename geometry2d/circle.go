@@ -192,11 +192,17 @@ func Circle3(a, b, c Point) Circle {
 
 // MinCircleCover returns the minimum circle that covers n points.
 func MinCircleCover(ps []Point) Circle {
+	if len(ps) == 0 {
+		return Circle{Point{0, 0}, 0}
+	}
 	if len(ps) == 1 {
 		return Circle{ps[0], 0}
 	}
 	if len(ps) == 2 {
 		return Circle2(ps[0], ps[1])
+	}
+	if len(ps) == 3 {
+		return Circle3(ps[0], ps[1], ps[2])
 	}
 	for i := range ps {
 		j := rand.Intn(i + 1)

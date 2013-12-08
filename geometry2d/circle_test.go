@@ -57,7 +57,13 @@ func TestCircleCircleIntersectionArea(t *testing.T) {
 }
 
 func TestMinCircleCover(t *testing.T) {
-	ps := []Point{
+	test := func(ps []Point, e Circle) {
+		c := MinCircleCover(ps)
+		if Sign(c.R-e.R) != 0 || Sign(Dist(e.Point, c.Point)) != 0 {
+			t.Errorf("Expected %v, got %v.", e, c)
+		}
+	}
+	test([]Point{
 		{0, 0},
 		{0, 1},
 		{0, 2},
@@ -67,10 +73,18 @@ func TestMinCircleCover(t *testing.T) {
 		{2, 0},
 		{2, 1},
 		{2, 2},
-	}
-	c := MinCircleCover(ps)
-	e := Circle{Point{1, 1}, math.Sqrt2}
-	if Sign(c.R-e.R) != 0 || Sign(Dist(e.Point, c.Point)) != 0 {
-		t.Errorf("Expected %v, got %v.", e, c)
-	}
+	}, Circle{Point{1, 1}, math.Sqrt2})
+	test([]Point{
+		{-1, 0},
+		{+1, 0},
+		{0, +2},
+	}, Circle{Point{0, 0.75}, 1.25})
+	test([]Point{
+		{-1, -1},
+		{+1, +1},
+	}, Circle{Point{0, 0}, math.Sqrt2})
+	test([]Point{
+		{0, 0},
+	}, Circle{Point{0, 0}, 0})
+	test([]Point{}, Circle{Point{0, 0}, 0})
 }
