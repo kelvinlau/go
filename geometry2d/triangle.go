@@ -58,10 +58,10 @@ func TrianglesIntersectionArea(a, b Triangle) float64 {
 	}
 	for i := 0; i < 3; i++ {
 		for j := 0; j < 3; j++ {
-			l0 := Line{ts[0][i], ts[0][(i+1)%3]}
-			l1 := Line{ts[1][j], ts[1][(j+1)%3]}
-			if !Parallel(l0, l1) {
-				ps = append(ps, IntersectionPoint(l0, l1))
+			l0 := LineSeg{ts[0][i], ts[0][(i+1)%3]}
+			l1 := LineSeg{ts[1][j], ts[1][(j+1)%3]}
+			if ok, p := LineSegIntersectionPoint(l0, l1); ok {
+				ps = append(ps, p)
 			}
 		}
 	}

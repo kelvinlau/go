@@ -70,3 +70,45 @@ func TestRotateCalipers(t *testing.T) {
 		t.Errorf("Expected peri %f, got %f.", peri1, peri)
 	}
 }
+
+func TestTriangulate(t *testing.T) {
+	ps := []Point{
+		{0, 0},
+		{2, 0},
+		{2, 1},
+		{1, 1},
+		{1, 2},
+		{0, 2},
+	}
+	ts := Triangulate(ps)
+	if len(ts) != len(ps)-2 {
+		t.Errorf("Expected #triangles %d, got %d.", len(ps)-2, len(ts))
+	}
+	area := 0.0
+	for _, t := range ts {
+		area += AreaPolygon(t[:])
+	}
+	e := AreaPolygon(ps)
+	if area != e {
+		t.Errorf("Expected sum of triangle areas %f, got %f.", e, area)
+	}
+}
+
+func TestPolygonIntersectionArea(t *testing.T) {
+	ps := []Point{
+		{1, 0},
+		{2, 0},
+		{2, 3},
+		{1, 3},
+	}
+	qs := []Point{
+		{0, 1},
+		{3, 1},
+		{3, 2},
+		{0, 2},
+	}
+	e := 1.0
+	if g := PolygonIntersectionArea(ps, qs); Sign(g-e) != 0 {
+		t.Errorf("Expected area %f, got %f.", e, g)
+	}
+}
