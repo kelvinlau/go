@@ -153,3 +153,15 @@ func CircleCircleIntersectionArea(a, b Circle) float64 {
 	db := d - da
 	return Sqr(a.R)*math.Acos(da/a.R) - da*math.Sqrt(Sqr(a.R)-Sqr(da)) + Sqr(b.R)*math.Acos(db/b.R) - db*math.Sqrt(Sqr(b.R)-Sqr(db))
 }
+
+// CircleTagents returns 2 points of tangency on circle c of point p.
+func CircleTagents(c Circle, p Point) (a, b Point) {
+	d := Sqr(c.X-p.X) + Sqr(c.Y-p.Y)
+	para := Sqr(c.R) / d
+	perp := c.R * math.Sqrt(d-Sqr(c.R)) / d
+	a.X = c.X + (p.X-c.X)*para - (p.Y-c.Y)*perp
+	a.Y = c.Y + (p.Y-c.Y)*para + (p.X-c.X)*perp
+	b.X = c.X + (p.X-c.X)*para + (p.Y-c.Y)*perp
+	b.Y = c.Y + (p.Y-c.Y)*para - (p.X-c.X)*perp
+	return
+}
