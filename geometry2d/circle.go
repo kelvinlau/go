@@ -138,3 +138,18 @@ func IntersectionPointCircleCircle(c1, c2 Circle) []Point {
 		return []Point{a}
 	}
 }
+
+// CircleCircleIntersectionArea returns the intersection area of 2 circles.
+func CircleCircleIntersectionArea(a, b Circle) float64 {
+	d := Dist(a.Point, b.Point)
+	if Sign(d) <= 0 || d+a.R <= b.R || d+b.R <= a.R {
+		return Sqr(math.Min(a.R, b.R)) * math.Pi
+	}
+	if d >= a.R+b.R {
+		return 0
+	}
+
+	da := (Sqr(d) + Sqr(a.R) - Sqr(b.R)) / d / 2
+	db := d - da
+	return Sqr(a.R)*math.Acos(da/a.R) - da*math.Sqrt(Sqr(a.R)-Sqr(da)) + Sqr(b.R)*math.Acos(db/b.R) - db*math.Sqrt(Sqr(b.R)-Sqr(db))
+}
