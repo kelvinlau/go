@@ -117,7 +117,7 @@ func IntersectionPointCircleCircle(c1, c2 Circle) []Point {
 	mx2 := Sqr(mx)
 	my := c2.Y - c1.Y
 	sy := c2.Y + c1.Y
-	my2 := Sqr(mx)
+	my2 := Sqr(my)
 	sq := mx2 + my2
 	d := -(sq - Sqr(c1.R-c2.R)) * (sq - Sqr(c1.R+c2.R))
 	if Sign(sq) == 0 || Sign(d) < 0 {
