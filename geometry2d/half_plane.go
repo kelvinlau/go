@@ -35,9 +35,11 @@ func HalfPlaneIntersection(hfs []HalfPlane) (ps []Point) {
 		f = false
 		for len(dq) > 1 && !InHalfPlane(HalfPlane(*dq[0]), IntersectionPoint(*dq[len(dq)-2], *dq[len(dq)-1])) {
 			dq = dq[:len(dq)-1]
+			f = true
 		}
 		for len(dq) > 1 && !InHalfPlane(HalfPlane(*dq[len(dq)-1]), IntersectionPoint(*dq[0], *dq[1])) {
 			dq = dq[1:]
+			f = true
 		}
 	}
 	for i := 0; i < len(dq); i++ {
