@@ -80,3 +80,28 @@ func DistLineLine(l1, l2 Line) float64 {
 	}
 	return math.Abs(Dot(v3, v)) / Len(v)
 }
+
+// ClosestApproach is like DistLineLine, but also returns the points of closest
+// approach.
+func ClosestApproach(l1, l2 Line) (d float64, p1, p2 Point) {
+	v1 := LineVec(l1)
+	v2 := LineVec(l2)
+	v3 := Vec(l2.P, l1.P)
+	s := Dot(v1, v2)
+	t := Dot(v3, v2)
+	den := Len2(v1)*Len(v2) - f.Sqr(s)
+	num := t*s - Len(v2)*Dot(v3, v1)
+	if f.Sign(den) == 0 {
+		p1 = l1.P
+		p2 = Add(l2.P, Mul(v2, t/Len2(v2)))
+		if f.Sign(s) == 0 {
+			p2 = p1
+		}
+	} else {
+		num /= den
+		p1 = Add(l1.P, Mul(v1, num))
+		p2 = Add(l2.P, Mul(v2, (t+s*num)/Len2(v2)))
+	}
+	d = Len(Vec(p1, p2))
+	return
+}
