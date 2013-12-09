@@ -2,6 +2,7 @@ package geometry3d
 
 import (
 	f "github.com/kelvinlau/go/floats"
+	g2 "github.com/kelvinlau/go/geometry2d"
 	"math"
 )
 
@@ -43,4 +44,16 @@ func DistPlanePoint(e Plane, p Point) float64 {
 func Pedal(e Plane, p Point) Point {
 	t := Dot(e.N, Vec(e.A, p)) / Len2(e.N)
 	return Add(p, Mul(e.N, t))
+}
+
+// Map2D projects a 3D point to a 2D point on e.
+func Map2D(e Plane, p Point) g2.Point {
+	u := Vector{1, 0, 0}
+	if Zero(Cross(e.N, u)) {
+		u = Vector{0, 1, 0}
+	}
+	xd := Norm(Cross(e.N, u))
+	yd := Norm(Cross(e.N, xd))
+	ap := Vec(e.A, p)
+	return g2.Point{Dot(ap, xd), Dot(ap, yd)}
 }
