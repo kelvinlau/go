@@ -2,6 +2,7 @@ package geometry3d
 
 import (
 	f "github.com/kelvinlau/go/floats"
+	"math"
 )
 
 // LineSeg is a line segment connect 2 points.
@@ -51,10 +52,18 @@ func Touched(l1, l2 LineSeg) bool {
 	}
 }
 
-// Pedal returns the meeting point where a line passes a with l at right angle.
-func Pedal(l Line, a Point) Point {
+// ClosestLinePoint returns the closest point on l to a.
+func ClosestLinePoint(l Line, a Point) Point {
 	v := LineVec(l)
 	ap := Vec(a, l.P)
 	t := Dot(v, ap) / Len2(v)
+	return Add(l.P, Mul(v, t))
+}
+
+// ClosestLineSegPoint returns the closest point on l to a.
+func ClosestLineSegPoint(l LineSeg, a Point) Point {
+	v := LineSegVec(l)
+	ap := Vec(a, l.P)
+	t := math.Max(0, math.Min(1, Dot(v, ap)/Len2(v)))
 	return Add(l.P, Mul(v, t))
 }
