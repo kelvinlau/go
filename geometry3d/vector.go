@@ -11,7 +11,7 @@ type Vector Point
 
 // Vec is the Vector from a to b.
 func Vec(a, b Point) Vector {
-	return Sub(Vector(b), Vector(a))
+	return Vector{b.X - a.X, b.Y - a.Y, b.Z - a.Z}
 }
 
 // Len is |a|.
@@ -29,14 +29,9 @@ func Zero(a Vector) bool {
 	return f.Sign(a.X) == 0 && f.Sign(a.Y) == 0 && f.Sign(a.Z) == 0
 }
 
-// Add is a + b.
-func Add(a, b Vector) Vector {
-	return Vector{a.X + b.X, a.Y + b.Y, a.Z + b.Z}
-}
-
-// Sub is a - b.
-func Sub(a, b Vector) Vector {
-	return Vector{a.X - b.X, a.Y - b.Y, a.Z - b.Z}
+// Add is p + v.
+func Add(p Point, v Vector) Point {
+	return Point{p.X + v.X, p.Y + v.Y, p.Z + v.Z}
 }
 
 // Mul is a * k.
