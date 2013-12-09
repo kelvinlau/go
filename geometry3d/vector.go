@@ -3,6 +3,7 @@ package geometry3d
 import (
 	f "github.com/kelvinlau/go/floats"
 	"math"
+	"math/rand"
 )
 
 // Vector is a direction on 3d space.
@@ -61,4 +62,15 @@ func Dot(a, b Vector) float64 {
 // Cross is a x b (cross product).
 func Cross(a, b Vector) Vector {
 	return Vector{a.Y*b.Z - a.Z*b.Y, a.Z*b.X - a.X*b.Z, a.X*b.Y - a.Y*b.X}
+}
+
+// RandPerp returns a random vector that perpendicular to a.
+func RandPerp(a Vector) Vector {
+	for {
+		v := Vector{rand.Float64(), rand.Float64(), rand.Float64()}
+		n := Cross(a, v)
+		if !Zero(n) {
+			return n
+		}
+	}
 }
