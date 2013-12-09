@@ -67,3 +67,16 @@ func ClosestLineSegPoint(l LineSeg, a Point) Point {
 	t := math.Max(0, math.Min(1, Dot(v, ap)/Len2(v)))
 	return Add(l.P, Mul(v, t))
 }
+
+// DistLineLine is the distant of 2 lines.
+func DistLineLine(l1, l2 Line) float64 {
+	v1 := LineVec(l1)
+	v2 := LineVec(l2)
+	v3 := Vec(l1.P, l2.P)
+	v4 := Vec(l1.P, l2.Q)
+	v := Cross(v1, v2)
+	if Zero(v) {
+		return Len(Cross(v3, v4)) / Len(v2)
+	}
+	return math.Abs(Dot(v3, v)) / Len(v)
+}
