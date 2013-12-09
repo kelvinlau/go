@@ -2,6 +2,7 @@ package geometry2d
 
 import (
 	"container/list"
+	f "github.com/kelvinlau/go/floats"
 	"math"
 	"sort"
 )
@@ -41,7 +42,7 @@ func ConvexHull(ps []Point) (qs []Point) {
 	}
 	AngularSort(ps)
 	for _, p := range ps {
-		for len(qs) >= 2 && Sign(Cross(qs[len(qs)-2], qs[len(qs)-1], p)) <= 0 {
+		for len(qs) >= 2 && f.Sign(Cross(qs[len(qs)-2], qs[len(qs)-1], p)) <= 0 {
 			qs = qs[:len(qs)-1]
 		}
 		qs = append(qs, p)
@@ -109,9 +110,9 @@ func InsidePolygon(ps []Point, a Point) bool {
 			return false
 		}
 		angle := math.Acos(Dot(a, ps[i], ps[j]) / Dist(a, ps[i]) / Dist(a, ps[j]))
-		sum += float64(Sign(Cross(a, ps[i], ps[j]))) * angle
+		sum += float64(f.Sign(Cross(a, ps[i], ps[j]))) * angle
 	}
-	return Sign(sum) > 0
+	return f.Sign(sum) > 0
 }
 
 // LineSegInsidePolygon returns true iff l strickly inside ps.
@@ -176,7 +177,7 @@ func CutArea(ps []Point, l Line) float64 {
 	}
 	qs := []Point{}
 	for i := 0; i < len(ps); i++ {
-		if Sign(Cross(l.P, l.Q, ps[i])) == 0 {
+		if f.Sign(Cross(l.P, l.Q, ps[i])) == 0 {
 			qs = append(qs, ps[i])
 		}
 		if i == i1 {
@@ -203,7 +204,7 @@ func Triangulate(ps []Point) (ts []Triangle) {
 	c := b.Next()
 	for ; c != nil; a, b, c = b, b.Next(), b.Next().Next() {
 		A, B, C := a.Value.(Point), b.Value.(Point), c.Value.(Point)
-		if Sign(Cross(A, B, C)) <= 0 {
+		if f.Sign(Cross(A, B, C)) <= 0 {
 			continue
 		}
 		ok := true

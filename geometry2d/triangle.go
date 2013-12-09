@@ -1,6 +1,7 @@
 package geometry2d
 
 import (
+	f "github.com/kelvinlau/go/floats"
 	"math"
 )
 
@@ -23,7 +24,7 @@ func AreaTriangle(a, b, c Point) float64 {
 
 // Sharp returns true if ABC is a sharp triangle
 func Sharp(a, b, c Point) bool {
-	return Sign(Dot(a, b, c)) > 0 && Sign(Dot(b, a, c)) > 0 && Sign(Dot(c, a, b)) > 0
+	return f.Sign(Dot(a, b, c)) > 0 && f.Sign(Dot(b, a, c)) > 0 && f.Sign(Dot(c, a, b)) > 0
 }
 
 // Perpencenter returns the meeting point of 3 altitudes of the triangle abc.
@@ -36,13 +37,13 @@ func Perpencenter(a, b, c Point) Point {
 // InsideTriangleExclusive returns true iff p is inside the triangle abc, not
 // including the border.
 func InsideTriangleExclusive(a, b, c, p Point) bool {
-	return Sign(Cross(a, b, p)) > 0 && Sign(Cross(b, c, p)) > 0 && Sign(Cross(c, a, p)) > 0
+	return f.Sign(Cross(a, b, p)) > 0 && f.Sign(Cross(b, c, p)) > 0 && f.Sign(Cross(c, a, p)) > 0
 }
 
 // InsideTriangleInclusive returns true iff p is inside the triangle abc,
 // including the border.
 func InsideTriangleInclusive(a, b, c, p Point) bool {
-	return Sign(Cross(a, b, p)) >= 0 && Sign(Cross(b, c, p)) >= 0 && Sign(Cross(c, a, p)) >= 0
+	return f.Sign(Cross(a, b, p)) >= 0 && f.Sign(Cross(b, c, p)) >= 0 && f.Sign(Cross(c, a, p)) >= 0
 }
 
 // TrianglesIntersectionArea returns the intersection area of 2 triangles.

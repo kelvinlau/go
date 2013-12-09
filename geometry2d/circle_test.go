@@ -1,6 +1,7 @@
 package geometry2d
 
 import (
+	f "github.com/kelvinlau/go/floats"
 	"math"
 	"testing"
 )
@@ -51,7 +52,7 @@ func TestCircleCircleIntersectionArea(t *testing.T) {
 	c1 := Circle{Point{0, 0}, 1}
 	c2 := Circle{Point{0, 1}, 1}
 	e := math.Pi/3*2 - math.Sqrt(3)/2
-	if g := CircleCircleIntersectionArea(c1, c2); Sign(g-e) != 0 {
+	if g := CircleCircleIntersectionArea(c1, c2); f.Sign(g-e) != 0 {
 		t.Errorf("Expected intersection area %f, got %f.", e, g)
 	}
 }
@@ -59,7 +60,7 @@ func TestCircleCircleIntersectionArea(t *testing.T) {
 func TestMinCircleCover(t *testing.T) {
 	test := func(ps []Point, e Circle) {
 		c := MinCircleCover(ps)
-		if Sign(c.R-e.R) != 0 || Sign(Dist(e.Point, c.Point)) != 0 {
+		if f.Sign(c.R-e.R) != 0 || f.Sign(Dist(e.Point, c.Point)) != 0 {
 			t.Errorf("Expected %v, got %v.", e, c)
 		}
 	}

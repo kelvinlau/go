@@ -1,6 +1,9 @@
 package geometry2d
 
-import "sort"
+import (
+	f "github.com/kelvinlau/go/floats"
+	"sort"
+)
 
 // HalfPlane is the set of points on the positive side of a line.
 type HalfPlane Line
@@ -13,14 +16,14 @@ func (hfs HalfPlanes) Less(i, j int) bool {
 	u, v := hfs[i], hfs[j]
 	a1 := Angle(u.Q, u.P)
 	a2 := Angle(v.Q, v.P)
-	c := Sign(a1 - a2)
-	return c < 0 || c == 0 && Sign(Cross(u.P, u.Q, v.P)) < 0
+	c := f.Sign(a1 - a2)
+	return c < 0 || c == 0 && f.Sign(Cross(u.P, u.Q, v.P)) < 0
 }
 func (hfs HalfPlanes) Swap(i, j int) { hfs[i], hfs[j] = hfs[j], hfs[i] }
 
 // InHalfPlane returns true iff p is in a half plane, inclusive.
 func InHalfPlane(hf HalfPlane, p Point) bool {
-	return Sign(Cross(hf.P, hf.Q, p)) >= 0
+	return f.Sign(Cross(hf.P, hf.Q, p)) >= 0
 }
 
 // HalfPlaneIntersection returns the convex hull resulting from intersecting a
