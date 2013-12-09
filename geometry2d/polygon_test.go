@@ -1,6 +1,9 @@
 package geometry2d
 
-import "testing"
+import (
+	f "github.com/kelvinlau/go/floats"
+	"testing"
+)
 
 func testEqual(t *testing.T, es, qs []Point) {
 	ok := true
@@ -63,10 +66,10 @@ func TestRotateCalipers(t *testing.T) {
 	}
 	area1, peri1 := 2.0, 6.0
 	area, peri := RotateCalipers(ps)
-	if Sign(area-area1) != 0 {
+	if f.Sign(area-area1) != 0 {
 		t.Errorf("Expected area %f, got %f.", area1, area)
 	}
-	if Sign(peri-peri1) != 0 {
+	if f.Sign(peri-peri1) != 0 {
 		t.Errorf("Expected peri %f, got %f.", peri1, peri)
 	}
 }
@@ -108,7 +111,7 @@ func TestPolygonIntersectionArea(t *testing.T) {
 		{0, 2},
 	}
 	e := 1.0
-	if g := PolygonIntersectionArea(ps, qs); Sign(g-e) != 0 {
+	if g := PolygonIntersectionArea(ps, qs); f.Sign(g-e) != 0 {
 		t.Errorf("Expected area %f, got %f.", e, g)
 	}
 }

@@ -1,4 +1,4 @@
-package geometry2d
+package floats
 
 const (
 	Eps = 1E-8

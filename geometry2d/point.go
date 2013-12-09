@@ -1,6 +1,7 @@
 package geometry2d
 
 import (
+	f "github.com/kelvinlau/go/floats"
 	"math"
 	"sort"
 )
@@ -42,10 +43,10 @@ func DeltaAngle(a, b, c Point) float64 {
 
 // Fix returns a angle capped in [0, 2*PI)
 func Fix(a float64) float64 {
-	if Sign(a) < 0 {
+	if f.Sign(a) < 0 {
 		a += 2 * math.Pi
 	}
-	if Sign(a-2*math.Pi) >= 0 {
+	if f.Sign(a-2*math.Pi) >= 0 {
 		a -= 2 * math.Pi
 	}
 	return a
@@ -82,7 +83,7 @@ type angularCmp struct {
 }
 
 func (a *angularCmp) Less(i, j int) bool {
-	c := Sign(Cross(a.o, a.p[i], a.p[j]))
+	c := f.Sign(Cross(a.o, a.p[i], a.p[j]))
 	return c > 0 || c == 0 && Dist(a.o, a.p[i]) < Dist(a.o, a.p[j])
 }
 func (a *angularCmp) Len() int      { return len(a.p) }
@@ -102,12 +103,12 @@ func AngularSort(p []Point) {
 
 // LessX returns if a comes before b by X then by Y.
 func LessX(a, b Point) bool {
-	return Sign(a.X-b.X) < 0 || Sign(a.X-b.X) == 0 && Sign(a.Y-b.Y) < 0
+	return f.Sign(a.X-b.X) < 0 || f.Sign(a.X-b.X) == 0 && f.Sign(a.Y-b.Y) < 0
 }
 
 // LessY returns if a comes before b by Y then by X.
 func LessY(a, b Point) bool {
-	return Sign(a.Y-b.Y) < 0 || Sign(a.Y-b.Y) == 0 && Sign(a.X-b.X) < 0
+	return f.Sign(a.Y-b.Y) < 0 || f.Sign(a.Y-b.Y) == 0 && f.Sign(a.X-b.X) < 0
 }
 
 // PointSlice is a slice of points.
