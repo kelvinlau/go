@@ -26,3 +26,11 @@ func IntersectionPointBallLine(b Ball, l Line) []Point {
 	v := Mul(lv, t)
 	return []Point{Add(d, v), Sub(d, v)}
 }
+
+// GreatCircle is a function that given the latitude and longitude of two points
+// in degrees, calculates the distance over the sphere between them.
+// Latitude is given in the range [-pi/2, pi/2] degrees,
+// Longitude is given in the range [-pi,pi] degrees.
+func GreatCircle(lat1, long1, lat2, long2 float64) float64 {
+	return math.Acos(math.Sin(lat1)*math.Sin(lat2) + math.Cos(lat1)*math.Cos(lat2)*math.Cos(long2-long1))
+}
