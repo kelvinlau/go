@@ -34,6 +34,11 @@ func Add(p Point, v Vector) Point {
 	return Point{p.X + v.X, p.Y + v.Y, p.Z + v.Z}
 }
 
+// Sub is p - v.
+func Sub(p Point, v Vector) Point {
+	return Point{p.X - v.X, p.Y - v.Y, p.Z - v.Z}
+}
+
 // Mul is a * k.
 func Mul(a Vector, k float64) Vector {
 	return Vector{a.X * k, a.Y * k, a.Z * k}
