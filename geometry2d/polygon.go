@@ -142,8 +142,8 @@ func IntersectedConvexLineSeg(ps []Point, l LineSeg) bool {
 		} else {
 			j := (i + 1) % len(ps)
 			m := LineSeg{ps[i], ps[j]}
-			if ok, p := LineSegIntersectionPoint(l, m); ok {
-				qs = append(qs, p)
+			if p := LineSegIntersectionPoint(l, m); p != nil {
+				qs = append(qs, *p)
 			}
 		}
 	}

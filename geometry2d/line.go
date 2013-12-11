@@ -58,16 +58,17 @@ func IntersectionPoint(u, v Line) Point {
 	return Point{u.P.X + r*(u.Q.X-u.P.X), u.P.Y + r*(u.Q.Y-u.P.Y)}
 }
 
-// LineSegIntersectionPoint returns true and the intersection point of u and v,
-// otherwise false and an arbitrary point.
-func LineSegIntersectionPoint(u, v LineSeg) (ok bool, p Point) {
+// LineSegIntersectionPoint returns the intersection point of u and v,
+// or nil if not intersected.
+func LineSegIntersectionPoint(u, v LineSeg) *Point {
 	if Parallel(Line(u), Line(v)) {
-		ok = false
-		return
+		return nil
 	}
-	p = IntersectionPoint(Line(u), Line(v))
-	ok = OnLineSeg(u, p) && OnLineSeg(v, p)
-	return
+	p := IntersectionPoint(Line(u), Line(v))
+	if OnLineSeg(u, p) && OnLineSeg(v, p) {
+		return &p
+	}
+	return nil
 }
 
 // OnLineSeg returns true iff p is on the line segment l, including the end
