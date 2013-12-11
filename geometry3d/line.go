@@ -72,6 +72,9 @@ func ClosestLineSegPoint(l LineSeg, a Point) Point {
 func DistLineLine(l1, l2 Line) float64 {
 	v1 := LineVec(l1)
 	v2 := LineVec(l2)
+	if Zero(v1) || Zero(v2) {
+		return 0
+	}
 	v3 := Vec(l1.P, l2.P)
 	v4 := Vec(l1.P, l2.Q)
 	v := Cross(v1, v2)

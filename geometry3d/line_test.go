@@ -35,8 +35,8 @@ func TestClosestApproach(t *testing.T) {
 		if f.Sign2(d, e) != 0 || !Coinside(p1, g1) || !Coinside(p2, g2) {
 			t.Errorf("Expected (%v, %v, %v), got (%v, %v, %v).", e, p1, p2, d, g1, g2)
 		}
-		if g := DistLineLine(l1, l2); g != d {
-			t.Errorf("DistLineLine(%v, %v) = %v, expected %v.", g, d)
+		if g := DistLineLine(l1, l2); f.Sign2(g, e) != 0 {
+			t.Errorf("DistLineLine(%v, %v) = %v, expected %v.", l1, l2, g, d)
 		}
 	}
 	{
