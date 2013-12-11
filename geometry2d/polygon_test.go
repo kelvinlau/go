@@ -148,7 +148,7 @@ func TestLineIntersectionsConvexHull(t *testing.T) {
 		qs = ConvexHull(qs)
 		ap := AreaPolygon(ps)
 		aq := AreaPolygon(qs)
-		if Sign2(ap, aq) != 0 {
+		if f.Sign2(ap, aq) != 0 {
 			t.Errorf("Expected area %f, got %f.", aq, ap)
 		}
 	}

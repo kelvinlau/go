@@ -100,7 +100,7 @@ func TestCircleTagents(t *testing.T) {
 	if LessY(q2, q1) {
 		q1, q2 = q2, q1
 	}
-	if Sign(Dist(q1, e1)) > 0 || Sign(Dist(q2, e2)) > 0 {
+	if f.Sign(Dist(q1, e1)) > 0 || f.Sign(Dist(q2, e2)) > 0 {
 		t.Errorf("Expected %v %v, got %v %v.", e1, e2, q1, q2)
 	}
 }

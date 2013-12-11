@@ -1,13 +1,14 @@
 package geometry2d
 
 import (
+	f "github.com/kelvinlau/go/floats"
 	"math"
 	"testing"
 )
 
 func TestDistLineSegPoint(t *testing.T) {
 	test := func(l LineSeg, p Point, e float64) {
-		if g := DistLineSegPoint(l, p); Sign2(g, e) != 0 {
+		if g := DistLineSegPoint(l, p); f.Sign2(g, e) != 0 {
 			t.Errorf("%v %v, expected %f, got %f.", l, p, e, g)
 		}
 	}
