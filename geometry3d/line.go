@@ -63,8 +63,8 @@ func ClosestLinePoint(l Line, a Point) Point {
 // ClosestLineSegPoint returns the closest point on l to a.
 func ClosestLineSegPoint(l LineSeg, a Point) Point {
 	v := LineSegVec(l)
-	ap := Vec(a, l.P)
-	t := math.Max(0, math.Min(1, Dot(v, ap)/Len2(v)))
+	pa := Vec(l.P, a)
+	t := math.Max(0, math.Min(1, Dot(v, pa)/Len2(v)))
 	return Add(l.P, Mul(v, t))
 }
 
@@ -82,8 +82,8 @@ func ClosestApproach(l1, l2 Line) (d float64, p1, p2 Point) {
 	v3 := Vec(l2.P, l1.P)
 	s := Dot(v1, v2)
 	t := Dot(v3, v2)
-	den := Len2(v1)*Len(v2) - f.Sqr(s)
-	num := t*s - Len(v2)*Dot(v3, v1)
+	den := Len2(v1)*Len2(v2) - f.Sqr(s)
+	num := t*s - Len2(v2)*Dot(v3, v1)
 	if f.Sign(den) == 0 {
 		p1 = l1.P
 		p2 = Add(l2.P, Mul(v2, t/Len2(v2)))
