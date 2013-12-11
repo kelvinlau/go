@@ -42,7 +42,7 @@ func DistPlanePoint(e Plane, p Point) float64 {
 
 // Pedal returns the closest point on e to p.
 func Pedal(e Plane, p Point) Point {
-	t := Dot(e.N, Vec(e.A, p)) / Len2(e.N)
+	t := Dot(e.N, Vec(p, e.A)) / Len2(e.N)
 	return Add(p, Mul(e.N, t))
 }
 
