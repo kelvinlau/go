@@ -70,11 +70,18 @@ func ClosestLineSegPoint(l LineSeg, a Point) Point {
 
 // DistLineLine is the distant of 2 lines.
 func DistLineLine(l1, l2 Line) float64 {
-	d, _, _ := ClosestApproach(l1, l2)
-	return d
+	v1 := LineVec(l1)
+	v2 := LineVec(l2)
+	v3 := Vec(l1.P, l2.P)
+	v4 := Vec(l1.P, l2.Q)
+	v := Cross(v1, v2)
+	if Zero(v) {
+		return Len(Cross(v3, v4)) / Len(v2)
+	}
+	return math.Abs(Dot(v3, v)) / Len(v)
 }
 
-// ClosestApproach returns the distant of 2 lines and the points of closest
+// ClosestApproach is like DistLineLine, but also returns the points of closest
 // approach.
 func ClosestApproach(l1, l2 Line) (d float64, p1, p2 Point) {
 	v1 := LineVec(l1)

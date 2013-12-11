@@ -74,6 +74,24 @@ func TestRotateCalipers(t *testing.T) {
 	}
 }
 
+func TestInsidePolygon(t *testing.T) {
+	test := func(ps []Point, p Point, e bool) {
+		if g := InsidePolygon(ps, p); g != e {
+			t.Errorf("%v %v: expected %v, got %v.", ps, p, e, g)
+		}
+	}
+	a := Point{0, 0}
+	b := Point{1, 0}
+	c := Point{1, 1}
+	d := Point{0, 1}
+	e := Point{0.5, 0.5}
+	f := Point{2, 2}
+	ps := []Point{a, b, c, d}
+	test(ps, d, false)
+	test(ps, e, true)
+	test(ps, f, false)
+}
+
 func TestTriangulate(t *testing.T) {
 	ps := []Point{
 		{0, 0},
@@ -114,4 +132,36 @@ func TestPolygonIntersectionArea(t *testing.T) {
 	if g := PolygonIntersectionArea(ps, qs); f.Sign(g-e) != 0 {
 		t.Errorf("Expected area %f, got %f.", e, g)
 	}
+}
+
+func TestLineIntersectionsConvexHull(t *testing.T) {
+	test := func(ls []Line) {
+		ps := LineIntersectionsConvexHull(ls)
+		qs := []Point{}
+		for i := 0; i < len(ls); i++ {
+			for j := i + 1; j < len(ls); j++ {
+				if !Parallel(ls[i], ls[j]) {
+					qs = append(qs, IntersectionPoint(ls[i], ls[j]))
+				}
+			}
+		}
+		qs = ConvexHull(qs)
+		ap := AreaPolygon(ps)
+		aq := AreaPolygon(qs)
+		if Sign2(ap, aq) != 0 {
+			t.Errorf("Expected area %f, got %f.", aq, ap)
+		}
+	}
+	a := Point{0, 0}
+	b := Point{1, 0}
+	c := Point{1, 1}
+	d := Point{0, 1}
+	test([]Line{
+		{a, b},
+		{c, d},
+		{b, c},
+		{d, a},
+		{a, c},
+	})
+	test([]Line{})
 }

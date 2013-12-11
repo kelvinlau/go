@@ -89,3 +89,18 @@ func TestMinCircleCover(t *testing.T) {
 	}, Circle{Point{0, 0}, 0})
 	test([]Point{}, Circle{Point{0, 0}, 0})
 }
+
+func TestCircleTagents(t *testing.T) {
+	c := Circle{Point{0, 0}, 1}
+	p := Point{2, 0}
+	alpha := math.Pi / 3
+	e1 := NextPoint(c.Point, -alpha, 1)
+	e2 := NextPoint(c.Point, +alpha, 1)
+	q1, q2 := CircleTagents(c, p)
+	if LessY(q2, q1) {
+		q1, q2 = q2, q1
+	}
+	if Sign(Dist(q1, e1)) > 0 || Sign(Dist(q2, e2)) > 0 {
+		t.Errorf("Expected %v %v, got %v %v.", e1, e2, q1, q2)
+	}
+}

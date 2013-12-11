@@ -37,6 +37,9 @@ func Centroid(a []Point) Point {
 
 // Find convex hull.
 func ConvexHull(ps []Point) (qs []Point) {
+	if len(ps) == 0 {
+		return
+	}
 	AngularSort(ps)
 	for _, p := range ps {
 		for len(qs) >= 2 && f.Sign(Cross(qs[len(qs)-2], qs[len(qs)-1], p)) <= 0 {
@@ -260,6 +263,9 @@ func LineIntersectionsConvexHull(ls []Line) []Point {
 		if j-i > 1 {
 			l = append(l, ls[j-1])
 		}
+	}
+	if len(l) < 2 {
+		return []Point{}
 	}
 	l = append(l, l[0], l[1])
 
