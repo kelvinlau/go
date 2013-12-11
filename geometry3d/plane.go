@@ -14,20 +14,19 @@ type Plane struct {
 
 // IntersectionPointPlaneSeg is the intersection point of a plane and a line
 // segment.
-func IntersectionPointPlaneSeg(e Plane, l LineSeg) (ok bool, ip Point) {
+func IntersectionPointPlaneSeg(e Plane, l LineSeg) *Point {
 	v := LineSegVec(l)
 	lhs := Dot(e.N, v)
 	if f.Sign(lhs) == 0 {
-		return
+		return nil
 	}
 	rhs := Dot(e.N, Vec(l.P, e.A))
 	t := rhs / lhs
 	if f.Sign(t) >= 0 && f.Sign2(t, 1) <= 0 {
-		ok = true
-		ip = Add(l.P, Mul(v, t))
-		return
+		ip := Add(l.P, Mul(v, t))
+		return &ip
 	}
-	return
+	return nil
 }
 
 // OnPlane reports if p is on e.

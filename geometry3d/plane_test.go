@@ -7,16 +7,16 @@ import (
 )
 
 func TestIntersectionPointPlaneSeg(t *testing.T) {
-	test := func(e Plane, l LineSeg, ok bool, ip Point) {
-		if ok1, ip1 := IntersectionPointPlaneSeg(e, l); ok != ok1 || ok && !Coinside(ip, ip1) {
-			t.Errorf("Expected %v %v, got %v %v.", ok, ip, ok1, ip1)
+	test := func(e Plane, l LineSeg, ip *Point) {
+		if ip1 := IntersectionPointPlaneSeg(e, l); (ip == nil) != (ip1 == nil) || (ip != nil) && !Coinside(*ip, *ip1) {
+			t.Errorf("Expected %v, got %v.", ip, ip1)
 		}
 	}
 
 	e := Plane{Vector{1, 0, 0}, Point{0, 0, 0}}
-	test(e, LineSeg{Point{1, 1, 1}, Point{-1, -1, -1}}, true, Point{0, 0, 0})
-	test(e, LineSeg{Point{1, 1, 1}, Point{2, 2, 2}}, false, Point{})
-	test(e, LineSeg{Point{1, 1, 1}, Point{1, 2, 1}}, false, Point{})
+	test(e, LineSeg{Point{1, 1, 1}, Point{-1, -1, -1}}, &Point{0, 0, 0})
+	test(e, LineSeg{Point{1, 1, 1}, Point{2, 2, 2}}, nil)
+	test(e, LineSeg{Point{1, 1, 1}, Point{1, 2, 1}}, nil)
 }
 
 func TestOnPlane(t *testing.T) {
