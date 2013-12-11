@@ -19,7 +19,8 @@ func IntersectionPointBallLine(b Ball, l Line) []Point {
 		return []Point{}
 	}
 	lv := LineVec(l)
-	t := math.Sqrt(f.Sqr(b.R)-e) / Len2(lv)
+	lv = Div(lv, Len(lv))
+	t := math.Sqrt(f.Sqr(b.R) - e)
 	if f.Sign(t) == 0 {
 		return []Point{d}
 	}
