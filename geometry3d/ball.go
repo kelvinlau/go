@@ -34,3 +34,83 @@ func IntersectionPointBallLine(b Ball, l Line) []Point {
 func GreatCircle(lat1, long1, lat2, long2 float64) float64 {
 	return math.Acos(math.Sin(lat1)*math.Sin(lat2) + math.Cos(lat1)*math.Cos(lat2)*math.Cos(long2-long1))
 }
+
+// det solves the determinant of a matrix recursively.
+func det(m [][]float64) (res float64) {
+	n := len(m)
+	if n == 2 {
+		return m[0][0]*m[1][1] - m[0][1]*m[1][0]
+	}
+	for skip := 0; skip < n; skip++ {
+		s := [][]float64{}
+		for i := 1; i < n; i++ {
+			sr := []float64{}
+			for j := 0; j < n; j++ {
+				if j == skip {
+					continue
+				}
+				sr = append(sr, m[i][j])
+			}
+			s = append(s, sr)
+		}
+		x := det(s)
+		if skip%2 != 0 {
+			res -= m[0][skip] * x
+		} else {
+			res += m[0][skip] * x
+		}
+	}
+	return res
+}
+
+// Ball4
+func Ball4(ps [4]Point) *Ball {
+	s := [][]float64{}
+	for i := 0; i < 4; i++ {
+		s = append(s, []float64{
+			ps[i].X,
+			ps[i].Y,
+			ps[i].Z,
+			1,
+		})
+	}
+	if f.Sign(det(s)) == 0 {
+		return nil
+	}
+
+	m := [][]float64{}
+	for i := 0; i < 4; i++ {
+		m = append(m, []float64{
+			f.Sqr(ps[i].X) + f.Sqr(ps[i].Y) + f.Sqr(ps[i].Z),
+			ps[i].X,
+			ps[i].Y,
+			ps[i].Z,
+			1,
+		})
+	}
+	sol := []float64{}
+	for skip := 0; skip < 5; skip++ {
+		for i := 0; i < 4; i++ {
+			for j, sn := 0, 0; j < 5; j++ {
+				if j == skip {
+					continue
+				}
+				s[i][sn] = m[i][j]
+				sn++
+			}
+		}
+		sol = append(sol, det(s))
+	}
+	for i := 1; i < 5; i++ {
+		if i%2 != 0 {
+			sol[i] /= sol[0]
+		} else {
+			sol[i] /= -sol[0]
+		}
+	}
+	for i := 1; i < 4; i++ {
+		sol[i] /= 2
+		sol[4] += f.Sqr(sol[i])
+	}
+	return &Ball{Point{sol[1], sol[2], sol[3]}, sol[4]}
+}
