@@ -1,3 +1,4 @@
+// Package geometry2d is a 2D geometry library.
 package geometry2d
 
 import (

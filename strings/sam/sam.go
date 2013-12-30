@@ -1,4 +1,4 @@
-// Package sam defines a suffix automata, a DFA accepts all suffixes of some
+// Package sam implements a suffix automata, a DFA accepts all suffixes of some
 // strings.
 package sam
 

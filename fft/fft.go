@@ -1,3 +1,4 @@
+// Package fft implements fast fourier transform using number theory.
 package fft
 
 import "github.com/kelvinlau/go/number"

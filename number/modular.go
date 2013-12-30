@@ -1,3 +1,4 @@
+// Package number implements basic number theory libraries.
 package number
 
 import (

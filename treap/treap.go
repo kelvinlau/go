@@ -1,3 +1,4 @@
+// Package treap implements Tree/Heap balanced binary tree.
 package treap
 
 import (

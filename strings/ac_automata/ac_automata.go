@@ -1,3 +1,4 @@
+// Package ac_automata implements multi-pattern matching algorithm.
 package ac_automata
 
 type node struct {

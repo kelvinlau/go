@@ -1,3 +1,4 @@
+// Package ptree implements persistent tree that supports range lower bound query.
 package ptree
 
 import "sort"

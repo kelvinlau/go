@@ -1,3 +1,4 @@
+// Package prime_sieve implements prime number checker using sieve algorithm.
 package prime_sieve
 
 const (

@@ -1,3 +1,4 @@
+// Package prime_random implements prime number checker using random algorithms.
 package prime_random
 
 import (

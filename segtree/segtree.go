@@ -1,6 +1,7 @@
-// A Segment tree that supports 2 operations:
-//   Inc(l, r, y): increment a[l, r) by y.
-//   Max():				 returns the max(a[0, n))
+// Package segtree implements a kind of Segment Tree.
+// It supports 2 operations:
+//   Inc(l, r, y): increment a[l, r) by y;
+//   Max():				 returns the max(a[0, n)).
 package segtree
 
 type SegTree struct {

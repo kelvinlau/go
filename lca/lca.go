@@ -1,3 +1,4 @@
+// Package lca supports online least common ancestor queries on a tree.
 package lca
 
 import (

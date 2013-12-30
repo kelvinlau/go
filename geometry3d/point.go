@@ -1,3 +1,4 @@
+// Package geometry3d is a 3D geometry library.
 package geometry3d
 
 import (

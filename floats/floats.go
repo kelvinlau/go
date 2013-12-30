@@ -1,3 +1,4 @@
+// Package floats implements basic floating point number util functions.
 package floats
 
 const (

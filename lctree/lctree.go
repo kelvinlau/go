@@ -1,3 +1,4 @@
+// Package lctree implements link-cut tree.
 package lctree
 
 // Node is a node in the link-cut tree.
