@@ -27,10 +27,11 @@ func New(n int) *Tree {
 		lg: lg,
 		ns: make([]node, n),
 	}
+	alloc := make([]*node, lg*n)
 	for i := range t.ns {
 		x := &t.ns[i]
 		x.dep = -1
-		x.pnt = make([]*node, lg)
+		x.pnt = alloc[i*lg : (i+1)*lg]
 	}
 	return t
 }
