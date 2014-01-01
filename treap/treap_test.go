@@ -1,6 +1,9 @@
 package treap
 
-import "testing"
+import (
+	"math/rand"
+	"testing"
+)
 
 func TestTreap(t *testing.T) {
 	treap := New()
@@ -103,5 +106,27 @@ func TestTreap(t *testing.T) {
 		if g := treap.Count(x); g != len(e) {
 			t.Errorf("Count %d: exptected %d, got %v.", x, len(e), g)
 		}
+	}
+}
+
+func BenchmarkTreapInsertLinear(b *testing.B) {
+	treap := New()
+	for x := 0; x < b.N; x++ {
+		treap.Insert(x)
+	}
+}
+
+func BenchmarkTreapInsertRandom(b *testing.B) {
+	treap := New()
+	for x := 0; x < b.N; x++ {
+		treap.Insert(rand.Int())
+	}
+}
+
+func BenchmarkTreapInsertLowerbound(b *testing.B) {
+	treap := New()
+	for x := 0; x < b.N; x++ {
+		treap.Insert(rand.Int())
+		treap.LowerBound(rand.Int())
 	}
 }
