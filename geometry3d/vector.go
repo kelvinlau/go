@@ -1,7 +1,7 @@
 package geometry3d
 
 import (
-	f "github.com/kelvinlau/go/floats"
+	. "github.com/kelvinlau/go/floats"
 	"math"
 	"math/rand"
 )
@@ -26,7 +26,7 @@ func Len2(a Vector) float64 {
 
 // Zeros is (|a| == 0).
 func Zero(a Vector) bool {
-	return f.Sign(a.X) == 0 && f.Sign(a.Y) == 0 && f.Sign(a.Z) == 0
+	return Sign(a.X) == 0 && Sign(a.Y) == 0 && Sign(a.Z) == 0
 }
 
 // Add is p + v.

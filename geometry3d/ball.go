@@ -1,7 +1,7 @@
 package geometry3d
 
 import (
-	f "github.com/kelvinlau/go/floats"
+	. "github.com/kelvinlau/go/floats"
 	"math"
 )
 
@@ -15,13 +15,13 @@ type Ball struct {
 func IntersectionPointBallLine(b Ball, l Line) []Point {
 	d := ClosestLinePoint(l, b.Point)
 	e := Len2(Vec(b.Point, d))
-	if e > f.Sqr(b.R) {
+	if e > Sqr(b.R) {
 		return []Point{}
 	}
 	lv := LineVec(l)
 	lv = Div(lv, Len(lv))
-	t := math.Sqrt(f.Sqr(b.R) - e)
-	if f.Sign(t) == 0 {
+	t := math.Sqrt(Sqr(b.R) - e)
+	if Sign(t) == 0 {
 		return []Point{d}
 	}
 	v := Mul(lv, t)
@@ -75,14 +75,14 @@ func Ball4(ps [4]Point) *Ball {
 			1,
 		})
 	}
-	if f.Sign(det(s)) == 0 {
+	if Sign(det(s)) == 0 {
 		return nil
 	}
 
 	m := [][]float64{}
 	for i := 0; i < 4; i++ {
 		m = append(m, []float64{
-			f.Sqr(ps[i].X) + f.Sqr(ps[i].Y) + f.Sqr(ps[i].Z),
+			Sqr(ps[i].X) + Sqr(ps[i].Y) + Sqr(ps[i].Z),
 			ps[i].X,
 			ps[i].Y,
 			ps[i].Z,
@@ -111,7 +111,7 @@ func Ball4(ps [4]Point) *Ball {
 	}
 	for i := 1; i < 4; i++ {
 		sol[i] /= 2
-		sol[4] += f.Sqr(sol[i])
+		sol[4] += Sqr(sol[i])
 	}
 	return &Ball{Point{sol[1], sol[2], sol[3]}, sol[4]}
 }

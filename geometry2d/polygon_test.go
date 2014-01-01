@@ -1,7 +1,7 @@
 package geometry2d
 
 import (
-	f "github.com/kelvinlau/go/floats"
+	. "github.com/kelvinlau/go/floats"
 	"testing"
 )
 
@@ -66,10 +66,10 @@ func TestRotateCalipers(t *testing.T) {
 	}
 	area1, peri1 := 2.0, 6.0
 	area, peri := RotateCalipers(ps)
-	if f.Sign(area-area1) != 0 {
+	if Sign(area-area1) != 0 {
 		t.Errorf("Expected area %f, got %f.", area1, area)
 	}
-	if f.Sign(peri-peri1) != 0 {
+	if Sign(peri-peri1) != 0 {
 		t.Errorf("Expected peri %f, got %f.", peri1, peri)
 	}
 }
@@ -129,7 +129,7 @@ func TestPolygonIntersectionArea(t *testing.T) {
 		{0, 2},
 	}
 	e := 1.0
-	if g := PolygonIntersectionArea(ps, qs); f.Sign(g-e) != 0 {
+	if g := PolygonIntersectionArea(ps, qs); Sign(g-e) != 0 {
 		t.Errorf("Expected area %f, got %f.", e, g)
 	}
 }
@@ -148,7 +148,7 @@ func TestLineIntersectionsConvexHull(t *testing.T) {
 		qs = ConvexHull(qs)
 		ap := AreaPolygon(ps)
 		aq := AreaPolygon(qs)
-		if f.Sign2(ap, aq) != 0 {
+		if Sign2(ap, aq) != 0 {
 			t.Errorf("Expected area %f, got %f.", aq, ap)
 		}
 	}

@@ -1,7 +1,7 @@
 package geometry3d
 
 import (
-	f "github.com/kelvinlau/go/floats"
+	. "github.com/kelvinlau/go/floats"
 	g2 "github.com/kelvinlau/go/geometry2d"
 	"math"
 )
@@ -17,12 +17,12 @@ type Plane struct {
 func IntersectionPointPlaneSeg(e Plane, l LineSeg) *Point {
 	v := LineSegVec(l)
 	lhs := Dot(e.N, v)
-	if f.Sign(lhs) == 0 {
+	if Sign(lhs) == 0 {
 		return nil
 	}
 	rhs := Dot(e.N, Vec(l.P, e.A))
 	t := rhs / lhs
-	if f.Sign(t) >= 0 && f.Sign2(t, 1) <= 0 {
+	if Sign(t) >= 0 && Sign2(t, 1) <= 0 {
 		ip := Add(l.P, Mul(v, t))
 		return &ip
 	}
@@ -31,7 +31,7 @@ func IntersectionPointPlaneSeg(e Plane, l LineSeg) *Point {
 
 // OnPlane reports if p is on e.
 func OnPlane(e Plane, p Point) bool {
-	return f.Sign(Dot(e.N, Vec(e.A, p))) == 0
+	return Sign(Dot(e.N, Vec(e.A, p))) == 0
 }
 
 // DistPlanePoint returns the distant of e and p.

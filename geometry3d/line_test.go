@@ -1,7 +1,7 @@
 package geometry3d
 
 import (
-	f "github.com/kelvinlau/go/floats"
+	. "github.com/kelvinlau/go/floats"
 	"testing"
 )
 
@@ -32,10 +32,10 @@ func TestClosestLineSegPoint(t *testing.T) {
 func TestClosestApproach(t *testing.T) {
 	test := func(l1, l2 Line, e float64, p1, p2 Point) {
 		d, g1, g2 := ClosestApproach(l1, l2)
-		if f.Sign2(d, e) != 0 || !Coinside(p1, g1) || !Coinside(p2, g2) {
+		if Sign2(d, e) != 0 || !Coinside(p1, g1) || !Coinside(p2, g2) {
 			t.Errorf("Expected (%v, %v, %v), got (%v, %v, %v).", e, p1, p2, d, g1, g2)
 		}
-		if g := DistLineLine(l1, l2); f.Sign2(g, e) != 0 {
+		if g := DistLineLine(l1, l2); Sign2(g, e) != 0 {
 			t.Errorf("DistLineLine(%v, %v) = %v, expected %v.", l1, l2, g, d)
 		}
 	}

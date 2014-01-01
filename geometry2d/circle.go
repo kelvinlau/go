@@ -1,7 +1,7 @@
 package geometry2d
 
 import (
-	f "github.com/kelvinlau/go/floats"
+	. "github.com/kelvinlau/go/floats"
 	"math"
 	"math/rand"
 )
@@ -27,29 +27,29 @@ func InscribedCircleCenter(A, B, C Point) Point {
 func CircumCircleCenter(A, B, C Point) Point {
 	a1 := B.X - A.X
 	b1 := B.Y - A.Y
-	c1 := (f.Sqr(a1) + f.Sqr(b1)) / 2
+	c1 := (Sqr(a1) + Sqr(b1)) / 2
 	a2 := C.X - A.X
 	b2 := C.Y - A.Y
-	c2 := (f.Sqr(a2) + f.Sqr(b2)) / 2
+	c2 := (Sqr(a2) + Sqr(b2)) / 2
 	d := a1*b2 - a2*b1
 	return Point{A.X + (c1*b2-c2*b1)/d, A.Y + (a1*c2-a2*c1)/d}
 }
 
 // RelationCirclePoint returns 0 if p is on c, -1 if inside, +1 if outside.
 func RelationCirclePoint(c Circle, p Point) int {
-	return f.Sign(Dist(p, c.Point) - c.R)
+	return Sign(Dist(p, c.Point) - c.R)
 }
 
 // RelationCircleLine returns 0 if l is tangent to c, -1 if intersected, +1 if
 // outside.
 func RelationCircleLine(c Circle, l Line) int {
-	return f.Sign(DistLinePoint(l, c.Point) - c.R)
+	return Sign(DistLinePoint(l, c.Point) - c.R)
 }
 
 // RelationCircleLineSeg returns 0 if l just touches c, -1 if inside of
 // intersected, +1 if outside.
 func RelationCircleLineSeg(c Circle, l LineSeg) int {
-	return f.Sign(DistLineSegPoint(l, c.Point) - c.R)
+	return Sign(DistLineSegPoint(l, c.Point) - c.R)
 }
 
 // HasCommonPointCircleTriangle returns true iff c and t share common points.
@@ -76,17 +76,17 @@ func IntersectionPointCircleLine(c Circle, l Line) []Point {
 	b := l.Q
 	dx := b.X - a.X
 	dy := b.Y - a.Y
-	sdr := f.Sqr(dx) + f.Sqr(dy)
+	sdr := Sqr(dx) + Sqr(dy)
 	a.X -= c.X
 	a.Y -= c.Y
 	b.X -= c.X
 	b.Y -= c.Y
 	d := a.X*b.Y - b.X*a.Y
-	disc := f.Sqr(c.R)*sdr - f.Sqr(d)
-	if f.Sign(disc) < 0 {
+	disc := Sqr(c.R)*sdr - Sqr(d)
+	if Sign(disc) < 0 {
 		return []Point{}
 	}
-	if f.Sign(disc) == 0 {
+	if Sign(disc) == 0 {
 		disc = 0
 	} else {
 		disc = math.Sqrt(disc)
@@ -103,7 +103,7 @@ func IntersectionPointCircleLine(c Circle, l Line) []Point {
 	b.X = (+d*dy-x)/sdr + c.X
 	a.Y = (-d*dx+y)/sdr + c.Y
 	b.Y = (-d*dx-y)/sdr + c.Y
-	if f.Sign(disc) > 0 {
+	if Sign(disc) > 0 {
 		return []Point{a, b}
 	} else {
 		return []Point{a}
@@ -115,16 +115,16 @@ func IntersectionPointCircleLine(c Circle, l Line) []Point {
 func IntersectionPointCircleCircle(c1, c2 Circle) []Point {
 	mx := c2.X - c1.X
 	sx := c2.X + c1.X
-	mx2 := f.Sqr(mx)
+	mx2 := Sqr(mx)
 	my := c2.Y - c1.Y
 	sy := c2.Y + c1.Y
-	my2 := f.Sqr(my)
+	my2 := Sqr(my)
 	sq := mx2 + my2
-	d := -(sq - f.Sqr(c1.R-c2.R)) * (sq - f.Sqr(c1.R+c2.R))
-	if f.Sign(sq) == 0 || f.Sign(d) < 0 {
+	d := -(sq - Sqr(c1.R-c2.R)) * (sq - Sqr(c1.R+c2.R))
+	if Sign(sq) == 0 || Sign(d) < 0 {
 		return []Point{}
 	}
-	if f.Sign(d) == 0 {
+	if Sign(d) == 0 {
 		d = 0
 	} else {
 		d = math.Sqrt(d)
@@ -136,7 +136,7 @@ func IntersectionPointCircleCircle(c1, c2 Circle) []Point {
 	sq *= 2
 	a := Point{(x + dy) / sq, (y - dx) / sq}
 	b := Point{(x - dy) / sq, (y + dx) / sq}
-	if f.Sign(d) > 0 {
+	if Sign(d) > 0 {
 		return []Point{a, b}
 	} else {
 		return []Point{a}
@@ -146,23 +146,23 @@ func IntersectionPointCircleCircle(c1, c2 Circle) []Point {
 // CircleCircleIntersectionArea returns the intersection area of 2 circles.
 func CircleCircleIntersectionArea(a, b Circle) float64 {
 	d := Dist(a.Point, b.Point)
-	if f.Sign(d) <= 0 || d+a.R <= b.R || d+b.R <= a.R {
-		return f.Sqr(math.Min(a.R, b.R)) * math.Pi
+	if Sign(d) <= 0 || d+a.R <= b.R || d+b.R <= a.R {
+		return Sqr(math.Min(a.R, b.R)) * math.Pi
 	}
 	if d >= a.R+b.R {
 		return 0
 	}
 
-	da := (f.Sqr(d) + f.Sqr(a.R) - f.Sqr(b.R)) / d / 2
+	da := (Sqr(d) + Sqr(a.R) - Sqr(b.R)) / d / 2
 	db := d - da
-	return f.Sqr(a.R)*math.Acos(da/a.R) - da*math.Sqrt(f.Sqr(a.R)-f.Sqr(da)) + f.Sqr(b.R)*math.Acos(db/b.R) - db*math.Sqrt(f.Sqr(b.R)-f.Sqr(db))
+	return Sqr(a.R)*math.Acos(da/a.R) - da*math.Sqrt(Sqr(a.R)-Sqr(da)) + Sqr(b.R)*math.Acos(db/b.R) - db*math.Sqrt(Sqr(b.R)-Sqr(db))
 }
 
 // CircleTagents returns 2 points of tangency on circle c of point p.
 func CircleTagents(c Circle, p Point) (a, b Point) {
-	d := f.Sqr(c.X-p.X) + f.Sqr(c.Y-p.Y)
-	para := f.Sqr(c.R) / d
-	perp := c.R * math.Sqrt(d-f.Sqr(c.R)) / d
+	d := Sqr(c.X-p.X) + Sqr(c.Y-p.Y)
+	para := Sqr(c.R) / d
+	perp := c.R * math.Sqrt(d-Sqr(c.R)) / d
 	a.X = c.X + (p.X-c.X)*para - (p.Y-c.Y)*perp
 	a.Y = c.Y + (p.Y-c.Y)*para + (p.X-c.X)*perp
 	b.X = c.X + (p.X-c.X)*para + (p.Y-c.Y)*perp

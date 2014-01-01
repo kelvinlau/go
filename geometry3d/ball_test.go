@@ -1,7 +1,7 @@
 package geometry3d
 
 import (
-	f "github.com/kelvinlau/go/floats"
+	. "github.com/kelvinlau/go/floats"
 	"math"
 	"testing"
 )
@@ -30,7 +30,7 @@ func TestIntersectionPointBallLine(t *testing.T) {
 }
 
 func TestGreatCircle(t *testing.T) {
-	if g, e := GreatCircle(math.Pi/2, 0, 0, math.Pi), math.Pi/2; f.Sign2(g, e) != 0 {
+	if g, e := GreatCircle(math.Pi/2, 0, 0, math.Pi), math.Pi/2; Sign2(g, e) != 0 {
 		t.Errorf("Expected %v, got %v.", e, g)
 	}
 }
@@ -38,7 +38,7 @@ func TestGreatCircle(t *testing.T) {
 func TestBall4(t *testing.T) {
 	test := func(ps [4]Point, e *Ball) {
 		g := Ball4(ps)
-		if (g == nil) != (e == nil) || g != nil && (!Coinside(e.Point, g.Point) || f.Sign2(e.R, g.R) != 0) {
+		if (g == nil) != (e == nil) || g != nil && (!Coinside(e.Point, g.Point) || Sign2(e.R, g.R) != 0) {
 			t.Fatalf("Expected %v, got %v.", e, g)
 		}
 	}

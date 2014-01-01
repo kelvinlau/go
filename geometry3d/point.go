@@ -2,7 +2,7 @@
 package geometry3d
 
 import (
-	f "github.com/kelvinlau/go/floats"
+	. "github.com/kelvinlau/go/floats"
 )
 
 // Point is a point on 3d space.
@@ -12,5 +12,5 @@ type Point struct {
 
 // Coinside returns true iff p equals q.
 func Coinside(p, q Point) bool {
-	return f.Sign2(p.X, q.X) == 0 && f.Sign2(p.Y, q.Y) == 0 && f.Sign2(p.Z, q.Z) == 0
+	return Sign2(p.X, q.X) == 0 && Sign2(p.Y, q.Y) == 0 && Sign2(p.Z, q.Z) == 0
 }

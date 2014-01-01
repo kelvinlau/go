@@ -1,7 +1,7 @@
 package geometry3d
 
 import (
-	f "github.com/kelvinlau/go/floats"
+	. "github.com/kelvinlau/go/floats"
 	"math"
 )
 
@@ -27,7 +27,7 @@ func LineSegVec(l LineSeg) Vector {
 func OnLineSeg(l LineSeg, a Point) bool {
 	ap := Vec(a, l.P)
 	aq := Vec(a, l.Q)
-	return Zero(Cross(ap, aq)) && f.Sign(Dot(ap, aq)) <= 0
+	return Zero(Cross(ap, aq)) && Sign(Dot(ap, aq)) <= 0
 }
 
 // Side returns the relationship of a, b based on l:
@@ -38,7 +38,7 @@ func Side(l LineSeg, a, b Point) int {
 	v := LineSegVec(l)
 	pa := Vec(l.P, a)
 	pb := Vec(l.P, b)
-	return f.Sign(Dot(Cross(v, pa), Cross(v, pb)))
+	return Sign(Dot(Cross(v, pa), Cross(v, pb)))
 }
 
 // Touched reports if l1, l2 share a common point.
@@ -92,12 +92,12 @@ func ClosestApproach(l1, l2 Line) (d float64, p1, p2 Point) {
 	v3 := Vec(l2.P, l1.P)
 	s := Dot(v1, v2)
 	t := Dot(v3, v2)
-	den := Len2(v1)*Len2(v2) - f.Sqr(s)
+	den := Len2(v1)*Len2(v2) - Sqr(s)
 	num := t*s - Len2(v2)*Dot(v3, v1)
-	if f.Sign(den) == 0 {
+	if Sign(den) == 0 {
 		p1 = l1.P
 		p2 = Add(l2.P, Mul(v2, t/Len2(v2)))
-		if f.Sign(s) == 0 {
+		if Sign(s) == 0 {
 			p2 = p1
 		}
 	} else {

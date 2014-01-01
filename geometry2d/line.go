@@ -1,7 +1,7 @@
 package geometry2d
 
 import (
-	f "github.com/kelvinlau/go/floats"
+	. "github.com/kelvinlau/go/floats"
 	"math"
 )
 
@@ -18,18 +18,18 @@ type Ray Line
 
 // Parallel reports whether u and v are parallel.
 func Parallel(u, v Line) bool {
-	return f.Sign((u.P.X-u.Q.X)*(v.P.Y-v.Q.Y)-(v.P.X-v.Q.X)*(u.P.Y-u.Q.Y)) == 0
+	return Sign((u.P.X-u.Q.X)*(v.P.Y-v.Q.Y)-(v.P.X-v.Q.X)*(u.P.Y-u.Q.Y)) == 0
 }
 
 // Side returns 1 if p and q are on the same side of m; 0 if at least 1 of p, q
 // touch m; otherwise -1.
 func Side(m Line, p, q Point) int {
-	return f.Sign(Cross(m.P, m.Q, p)) * f.Sign(Cross(m.P, m.Q, q))
+	return Sign(Cross(m.P, m.Q, p)) * Sign(Cross(m.P, m.Q, q))
 }
 
 // OnLine returns true iff p is on the line l.
 func OnLine(l Line, p Point) bool {
-	return f.Sign(Cross(l.P, l.Q, p)) == 0
+	return Sign(Cross(l.P, l.Q, p)) == 0
 }
 
 // Coinside returns true if line u, v are the same line.
@@ -74,13 +74,13 @@ func LineSegIntersectionPoint(u, v LineSeg) *Point {
 // OnLineSeg returns true iff p is on the line segment l, including the end
 // points.
 func OnLineSeg(l LineSeg, p Point) bool {
-	return OnLine(Line(l), p) && f.Sign(Dot(p, l.P, l.Q)) <= 0
+	return OnLine(Line(l), p) && Sign(Dot(p, l.P, l.Q)) <= 0
 }
 
 // OnLineSegExclusive returns true iff p is on the line segment l, excluding the
 // end points.
 func OnLineSegExclusive(l LineSeg, p Point) bool {
-	return OnLine(Line(l), p) && f.Sign(Dot(p, l.P, l.Q)) < 0
+	return OnLine(Line(l), p) && Sign(Dot(p, l.P, l.Q)) < 0
 }
 
 // DistLinePoint returns the shortest distant between a point and a line.
@@ -94,7 +94,7 @@ func DistLineSegPoint(l LineSeg, p Point) float64 {
 	if OnLineSeg(l, p) {
 		return 0
 	}
-	if f.Sign(Dot(l.P, l.Q, p)) <= 0 || f.Sign(Dot(l.Q, l.P, p)) <= 0 {
+	if Sign(Dot(l.P, l.Q, p)) <= 0 || Sign(Dot(l.Q, l.P, p)) <= 0 {
 		return math.Min(Dist(l.P, p), Dist(l.Q, p))
 	}
 	return math.Abs(Cross(l.P, l.Q, p)) / Dist(l.P, l.Q)
@@ -157,7 +157,7 @@ type LinesAngleComparator []Line
 func (ls LinesAngleComparator) Len() int { return len(ls) }
 func (ls LinesAngleComparator) Less(i, j int) bool {
 	u, v := ls[i], ls[j]
-	c := f.Sign((u.P.X-u.Q.X)*(v.P.Y-v.Q.Y) - (v.P.X-v.Q.X)*(u.P.Y-u.Q.Y))
-	return c < 0 || c == 0 && f.Sign(Cross(u.P, u.Q, v.P)) < 0
+	c := Sign((u.P.X-u.Q.X)*(v.P.Y-v.Q.Y) - (v.P.X-v.Q.X)*(u.P.Y-u.Q.Y))
+	return c < 0 || c == 0 && Sign(Cross(u.P, u.Q, v.P)) < 0
 }
 func (ls LinesAngleComparator) Swap(i, j int) { ls[i], ls[j] = ls[j], ls[i] }
