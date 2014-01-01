@@ -8,21 +8,34 @@ import (
 
 // Treap is a balanced binary tree.
 type Treap struct {
+	less LessFunc
 	root *Node
 }
 
+// LessFunc is the comparator for data in treap.
+type LessFunc func(a, b interface{}) bool
+
 // New returns an empty treap.
-func New() *Treap {
+func New(less LessFunc) *Treap {
 	return &Treap{
+		less: less,
 		root: nil,
 	}
+}
+
+// IntLess is a LessFunc for int.
+func IntLess(a, b interface{}) bool { return a.(int) < b.(int) }
+
+// New returns an empty treap with int as the data type.
+func NewInt() *Treap {
+	return New(IntLess)
 }
 
 // Node is a node in the treap.
 type Node struct {
 	l, r, p *Node
 	size, t int
-	Key     int
+	Key     interface{}
 }
 
 func size(x *Node) int {
@@ -73,15 +86,15 @@ func adjust(x *Node) *Node {
 	return up(x)
 }
 
-func insert(p, x *Node) *Node {
+func insert(less LessFunc, p, x *Node) *Node {
 	if p == nil {
 		return x
 	}
-	if x.Key < p.Key {
-		p.l = insert(p.l, x)
+	if less(x.Key, p.Key) {
+		p.l = insert(less, p.l, x)
 		p.l.p = p
 	} else {
-		p.r = insert(p.r, x)
+		p.r = insert(less, p.r, x)
 		p.r.p = p
 	}
 	p.size++
@@ -99,7 +112,7 @@ func up(x *Node) *Node {
 }
 
 // Insert inserts a record into the treap.
-func (t *Treap) Insert(key int) {
+func (t *Treap) Insert(key interface{}) {
 	x := &Node{
 		Key:  key,
 		size: 1,
@@ -109,18 +122,18 @@ func (t *Treap) Insert(key int) {
 }
 
 func (t *Treap) insertNode(x *Node) {
-	insert(t.root, x)
+	insert(t.less, t.root, x)
 	t.root = adjust(x)
 }
 
 // Find returns the node from a given key, or nil if not found.
-func (t *Treap) Find(key int) *Node {
+func (t *Treap) Find(key interface{}) *Node {
 	p := t.root
 	for p != nil {
-		if p.Key == key {
+		if !t.less(key, p.Key) && !t.less(p.Key, key) {
 			return p
 		}
-		if key < p.Key {
+		if t.less(key, p.Key) {
 			p = p.l
 		} else {
 			p = p.r
@@ -130,7 +143,7 @@ func (t *Treap) Find(key int) *Node {
 }
 
 // Erase erases a node with the given key, return true on succ.
-func (t *Treap) Erase(key int) bool {
+func (t *Treap) Erase(key interface{}) bool {
 	x := t.Find(key)
 	if x == nil {
 		return false
@@ -159,11 +172,11 @@ func (t *Treap) Erase(key int) bool {
 }
 
 // Count return the number of nodes with key less than the given key.
-func (t *Treap) Count(key int) int {
+func (t *Treap) Count(key interface{}) int {
 	x := t.root
 	c := 0
 	for x != nil {
-		if x.Key >= key {
+		if !t.less(x.Key, key) {
 			x = x.l
 		} else {
 			c += size(x.l) + 1
@@ -189,27 +202,27 @@ func (t *Treap) Kth(k int) *Node {
 	return nil
 }
 
-func search(x *Node, key int, eq bool) *Node {
+func search(less LessFunc, x *Node, key interface{}, eq bool) *Node {
 	if x == nil {
 		return nil
 	}
-	if key < x.Key || key == x.Key && eq {
-		if y := search(x.l, key, eq); y != nil {
+	if less(key, x.Key) || !less(x.Key, key) && eq {
+		if y := search(less, x.l, key, eq); y != nil {
 			return y
 		}
 		return x
 	}
-	return search(x.r, key, eq)
+	return search(less, x.r, key, eq)
 }
 
 // LowerBound return the smallest node that >= given key.
-func (t *Treap) LowerBound(key int) *Node {
-	return search(t.root, key, true)
+func (t *Treap) LowerBound(key interface{}) *Node {
+	return search(t.less, t.root, key, true)
 }
 
 // UpperBound return the smallest node that > given key.
-func (t *Treap) UpperBound(key int) *Node {
-	return search(t.root, key, false)
+func (t *Treap) UpperBound(key interface{}) *Node {
+	return search(t.less, t.root, key, false)
 }
 
 // Head returns the smallest node.

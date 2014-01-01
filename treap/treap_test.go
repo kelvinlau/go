@@ -6,7 +6,7 @@ import (
 )
 
 func TestTreap(t *testing.T) {
-	treap := New()
+	treap := NewInt()
 	for x := 0; x < 100; x += 3 {
 		treap.Insert(x)
 	}
@@ -43,13 +43,13 @@ func TestTreap(t *testing.T) {
 
 	g := []int{}
 	treap.Each(func(x *Node) {
-		g = append(g, x.Key)
+		g = append(g, x.Key.(int))
 	})
 	check(g)
 
 	g2 := []int{}
 	for x := treap.Head(); x != nil; x = x.Next() {
-		g2 = append(g2, x.Key)
+		g2 = append(g2, x.Key.(int))
 	}
 	check(g2)
 
@@ -110,21 +110,21 @@ func TestTreap(t *testing.T) {
 }
 
 func BenchmarkTreapInsertLinear(b *testing.B) {
-	treap := New()
+	treap := NewInt()
 	for x := 0; x < b.N; x++ {
 		treap.Insert(x)
 	}
 }
 
 func BenchmarkTreapInsertRandom(b *testing.B) {
-	treap := New()
+	treap := NewInt()
 	for x := 0; x < b.N; x++ {
 		treap.Insert(rand.Int())
 	}
 }
 
 func BenchmarkTreapInsertLowerbound(b *testing.B) {
-	treap := New()
+	treap := NewInt()
 	for x := 0; x < b.N; x++ {
 		treap.Insert(rand.Int())
 		treap.LowerBound(rand.Int())
