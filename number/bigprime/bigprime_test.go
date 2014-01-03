@@ -1,4 +1,4 @@
-package prime_random
+package bigprime
 
 import (
 	"math/rand"
