@@ -8,15 +8,17 @@ import (
 func TestTreap(t *testing.T) {
 	treap := NewInt()
 	for x := 0; x < 100; x += 3 {
-		treap.Insert(x)
+		treap.Insert(x, 0)
 	}
 	for x := 95; x >= 0; x -= 5 {
 		if treap.Find(x) == nil {
-			treap.Insert(x)
+			treap.Insert(x, 0)
 		}
 	}
 	for x := 0; x < 100; x += 7 {
-		treap.Erase(x)
+		if e := treap.Find(x); e != nil {
+			treap.Erase(e)
+		}
 	}
 
 	e := []int{}
@@ -112,21 +114,21 @@ func TestTreap(t *testing.T) {
 func BenchmarkTreapInsertLinear(b *testing.B) {
 	treap := NewInt()
 	for x := 0; x < b.N; x++ {
-		treap.Insert(x)
+		treap.Insert(x, 0)
 	}
 }
 
 func BenchmarkTreapInsertRandom(b *testing.B) {
 	treap := NewInt()
 	for x := 0; x < b.N; x++ {
-		treap.Insert(rand.Int())
+		treap.Insert(rand.Int(), 0)
 	}
 }
 
 func BenchmarkTreapInsertLowerbound(b *testing.B) {
 	treap := NewInt()
 	for x := 0; x < b.N; x++ {
-		treap.Insert(rand.Int())
+		treap.Insert(rand.Int(), 0)
 		treap.LowerBound(rand.Int())
 	}
 }

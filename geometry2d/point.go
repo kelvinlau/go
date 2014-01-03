@@ -16,6 +16,11 @@ func Cross(a, b, c Point) float64 {
 	return (b.X-a.X)*(c.Y-b.Y) - (b.Y-a.Y)*(c.X-b.X)
 }
 
+// Cross product of OA x OB.
+func Cross2(a, b Point) float64 {
+	return a.X*b.Y - a.Y*b.X
+}
+
 // Dot returns dot product of PA * PB.
 func Dot(p, a, b Point) float64 {
 	return (a.X-p.X)*(b.X-p.X) + (a.Y-p.Y)*(b.Y-p.Y)

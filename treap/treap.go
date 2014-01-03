@@ -33,9 +33,9 @@ func NewInt() *Treap {
 
 // Node is a node in the treap.
 type Node struct {
-	l, r, p *Node
-	size, t int
-	Key     interface{}
+	l, r, p  *Node
+	size, t  int
+	Key, Val interface{}
 }
 
 func size(x *Node) int {
@@ -112,9 +112,10 @@ func up(x *Node) *Node {
 }
 
 // Insert inserts a record into the treap.
-func (t *Treap) Insert(key interface{}) {
+func (t *Treap) Insert(key, val interface{}) {
 	x := &Node{
 		Key:  key,
+		Val:  val,
 		size: 1,
 		t:    rand.Int(),
 	}
@@ -142,12 +143,8 @@ func (t *Treap) Find(key interface{}) *Node {
 	return nil
 }
 
-// Erase erases a node with the given key, return true on succ.
-func (t *Treap) Erase(key interface{}) bool {
-	x := t.Find(key)
-	if x == nil {
-		return false
-	}
+// Erase erases a given node.
+func (t *Treap) Erase(x *Node) {
 	for x.l != nil || x.r != nil {
 		if x.l != nil && (x.r == nil || x.l.t < x.r.t) {
 			rotate(x.l)
@@ -168,7 +165,11 @@ func (t *Treap) Erase(key interface{}) bool {
 		}
 	}
 	t.root = up(y)
-	return true
+}
+
+// Clear erases all nodes.
+func (t *Treap) Clear() {
+	t.root = nil
 }
 
 // Count return the number of nodes with key less than the given key.
@@ -225,7 +226,7 @@ func (t *Treap) UpperBound(key interface{}) *Node {
 	return search(t.less, t.root, key, false)
 }
 
-// Head returns the smallest node.
+// Head returns the first (smallest) node.
 func (t *Treap) Head() *Node {
 	x := t.root
 	if x == nil {
@@ -233,6 +234,18 @@ func (t *Treap) Head() *Node {
 	}
 	for x.l != nil {
 		x = x.l
+	}
+	return x
+}
+
+// Tail returns the last (largest) node.
+func (t *Treap) Tail() *Node {
+	x := t.root
+	if x == nil {
+		return nil
+	}
+	for x.r != nil {
+		x = x.r
 	}
 	return x
 }
@@ -247,6 +260,22 @@ func (x *Node) Next() *Node {
 		return x
 	} else {
 		for x.p != nil && x.p.r == x {
+			x = x.p
+		}
+		return x.p
+	}
+}
+
+// Prev returns the prev node of a given node in-order.
+func (x *Node) Prev() *Node {
+	if x.l != nil {
+		x = x.l
+		for x.r != nil {
+			x = x.r
+		}
+		return x
+	} else {
+		for x.p != nil && x.p.l == x {
 			x = x.p
 		}
 		return x.p
@@ -270,7 +299,7 @@ func (t *Treap) Each(f func(x *Node)) {
 // Print prints the data in the tree in-order.
 func (t *Treap) Print() {
 	t.Each(func(x *Node) {
-		fmt.Printf("%v, ", x.Key)
+		fmt.Printf("%v:%v, ", x.Key, x.Val)
 	})
 	fmt.Println()
 }
