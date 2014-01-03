@@ -1,8 +1,8 @@
-package ac_automata
+package ac
 
 import "testing"
 
-func TestAcAutomata(t *testing.T) {
+func TestAutomata(t *testing.T) {
 	ss := []string{
 		"abc",
 		"abc",

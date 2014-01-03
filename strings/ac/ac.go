@@ -1,5 +1,5 @@
-// Package ac_automata implements multi-pattern matching algorithm.
-package ac_automata
+// Package ac implements Aho–Corasick multi-pattern matching algorithm.
+package ac
 
 type node struct {
 	next map[rune]*node
@@ -11,18 +11,18 @@ func newNode() *node {
 	return &node{next: make(map[rune]*node)}
 }
 
-// An AcAutomata is a DFA that surpports multi-string matching.
-type AcAutomata struct {
+// An Automata is a DFA that surpports multi-string matching.
+type Automata struct {
 	root *node
 }
 
-// New constructs an empty AcAutomata.
-func New() *AcAutomata {
-	return &AcAutomata{root: newNode()}
+// New constructs an empty Automata.
+func New() *Automata {
+	return &Automata{root: newNode()}
 }
 
 // Insert inserts a string into the automata.
-func (a *AcAutomata) Insert(s string) {
+func (a *Automata) Insert(s string) {
 	x := a.root
 	for _, z := range s {
 		if _, ok := x.next[z]; !ok {
@@ -34,7 +34,7 @@ func (a *AcAutomata) Insert(s string) {
 }
 
 // Build finalize the automata after inserting strings.
-func (a *AcAutomata) Build() {
+func (a *Automata) Build() {
 	q := []*node{a.root}
 	for len(q) > 0 {
 		u := q[0]
@@ -56,7 +56,7 @@ func (a *AcAutomata) Build() {
 
 // Run reports how many string in the given set are substring of s, can be run
 // only once.
-func (a *AcAutomata) Run(s string) int {
+func (a *Automata) Run(s string) int {
 	ans := 0
 	x := a.root
 	for _, z := range s {
