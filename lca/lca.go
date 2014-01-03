@@ -17,7 +17,7 @@ type node struct {
 	adj []*node
 }
 
-func New(n int) *Tree {
+func NewTree(n int) *Tree {
 	lg := 1
 	for d := 1; d < n; d <<= 1 {
 		lg++

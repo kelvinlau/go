@@ -5,7 +5,7 @@ import (
 )
 
 func TestLca(t *testing.T) {
-	tree := New(10)
+	tree := NewTree(10)
 	tree.Link(3, 9)
 	tree.Link(9, 5)
 	tree.Link(1, 8)
