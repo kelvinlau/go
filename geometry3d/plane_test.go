@@ -35,7 +35,7 @@ func TestOnPlane(t *testing.T) {
 
 func TestDistPlanePoint(t *testing.T) {
 	test := func(e Plane, p Point, o float64) {
-		if g := DistPlanePoint(e, p); Sign2(g, o) != 0 {
+		if g := DistPlanePoint(e, p); !Eq(g, o) {
 			t.Errorf("%v, %v: expected %v, got %v.", e, p, o, g)
 		}
 	}

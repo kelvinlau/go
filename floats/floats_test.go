@@ -22,7 +22,7 @@ func TestSign2(t *testing.T) {
 
 func TestSqr(t *testing.T) {
 	test := func(x, e float64) {
-		if g := Sqr(x); Sign2(e, g) != 0 {
+		if g := Sqr(x); !Eq(e, g) {
 			t.Errorf("Sqr(%f): expected %f, got %f.", x, e, g)
 		}
 	}

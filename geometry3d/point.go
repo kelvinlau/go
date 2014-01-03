@@ -12,5 +12,5 @@ type Point struct {
 
 // Coinside returns true iff p equals q.
 func Coinside(p, q Point) bool {
-	return Sign2(p.X, q.X) == 0 && Sign2(p.Y, q.Y) == 0 && Sign2(p.Z, q.Z) == 0
+	return Eq(p.X, q.X) && Eq(p.Y, q.Y) && Eq(p.Z, q.Z)
 }

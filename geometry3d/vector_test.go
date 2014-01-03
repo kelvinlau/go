@@ -8,7 +8,7 @@ import (
 func TestNorm(t *testing.T) {
 	v := Vector{3, -4, 5}
 	u := Norm(v)
-	if Sign2(Len(u), 1) != 0 {
+	if !Eq(Len(u), 1) {
 		t.Errorf("Norm %v, got %v, len: %f.", v, u, Len(u))
 	}
 }

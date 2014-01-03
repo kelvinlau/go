@@ -8,7 +8,7 @@ import (
 
 func TestDistLineSegPoint(t *testing.T) {
 	test := func(l LineSeg, p Point, e float64) {
-		if g := DistLineSegPoint(l, p); Sign2(g, e) != 0 {
+		if g := DistLineSegPoint(l, p); !Eq(g, e) {
 			t.Errorf("%v %v, expected %f, got %f.", l, p, e, g)
 		}
 	}
