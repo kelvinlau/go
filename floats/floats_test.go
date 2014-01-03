@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func TestFloats(t *testing.T) {
+func TestSign2(t *testing.T) {
 	a := 1.2
 	b := 1.1
 	test := func(c float64, e int) {
@@ -18,4 +18,15 @@ func TestFloats(t *testing.T) {
 	test(c, 0)
 	test(c1, +1)
 	test(c2, -1)
+}
+
+func TestSqr(t *testing.T) {
+	test := func(x, e float64) {
+		if g := Sqr(x); Sign2(e, g) != 0 {
+			t.Errorf("Sqr(%f): expected %f, got %f.", x, e, g)
+		}
+	}
+	test(1.1, 1.21)
+	test(0, 0)
+	test(-5, 25)
 }
