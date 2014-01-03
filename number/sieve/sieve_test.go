@@ -1,4 +1,4 @@
-package prime_sieve
+package sieve
 
 import (
 	"testing"

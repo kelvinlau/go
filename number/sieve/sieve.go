@@ -1,5 +1,5 @@
-// Package prime_sieve implements prime number checker using sieve algorithm.
-package prime_sieve
+// Package sieve implements prime number checker using sieve algorithm.
+package sieve
 
 const (
 	Max = 1000001 // All numbers < Max all be pre-processed.

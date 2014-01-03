@@ -4,7 +4,7 @@ import (
 	"math/rand"
 	"testing"
 
-	ps "github.com/kelvinlau/go/number/prime_sieve"
+	"github.com/kelvinlau/go/number/sieve"
 )
 
 func TestPollarRho(t *testing.T) {
@@ -35,7 +35,7 @@ func TestMillerRabin(t *testing.T) {
 
 	for i := 0; i < 100; i++ {
 		n := int(rand.Int31())
-		test(int64(n), ps.IsPrime(n))
+		test(int64(n), sieve.IsPrime(n))
 	}
 	test(123456789123456, false)
 	test(1<<48-257, true)
