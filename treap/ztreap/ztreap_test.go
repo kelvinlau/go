@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestTreap(t *testing.T) {
+func TestZtreap(t *testing.T) {
 	treap := New()
 	for x := 0; x < 100; x += 3 {
 		treap.Insert(x)
@@ -109,21 +109,21 @@ func TestTreap(t *testing.T) {
 	}
 }
 
-func BenchmarkTreapInsertLinear(b *testing.B) {
+func BenchmarkZtreapInsertLinear(b *testing.B) {
 	treap := New()
 	for x := 0; x < b.N; x++ {
 		treap.Insert(x)
 	}
 }
 
-func BenchmarkTreapInsertRandom(b *testing.B) {
+func BenchmarkZtreapInsertRandom(b *testing.B) {
 	treap := New()
 	for x := 0; x < b.N; x++ {
 		treap.Insert(rand.Int())
 	}
 }
 
-func BenchmarkTreapInsertLowerbound(b *testing.B) {
+func BenchmarkZtreapInsertLowerbound(b *testing.B) {
 	treap := New()
 	for x := 0; x < b.N; x++ {
 		treap.Insert(rand.Int())
