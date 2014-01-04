@@ -2,9 +2,8 @@
 package blossom
 
 // MaxMatches calculates the maximum matches of a graph given the adj matrix.
-// Returns:
-//   m: the max num of matches.
-//   match: match[i] == j means i matches with j, or -1 if no match for i.
+// Returns m, the max num of matches, and match, match[i] == j means i matches
+// with j, or -1 if no match for i.
 func MaxMatches(g [][]bool) (m int, match []int) {
 	n := len(g)
 	match = make([]int, n)
