@@ -1,4 +1,3 @@
-// Solution for http://codeforces.com/contest/377/problem/D.
 package segtree_test
 
 import (
