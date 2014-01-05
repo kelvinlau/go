@@ -4,6 +4,7 @@
 //   Max():				 returns the max(a[0, n)).
 package segtree
 
+// SegTree is a segment tree supports range updates and global max queries.
 type SegTree struct {
 	n       int
 	f, g, x []int

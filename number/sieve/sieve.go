@@ -2,7 +2,7 @@
 package sieve
 
 const (
-	Max = 1000001 // All numbers < Max all be pre-processed.
+	Max = 1000001 // All numbers < Max will be pre-processed.
 )
 
 var (
@@ -40,7 +40,7 @@ func IsPrime(n int) bool {
 
 // Factor is a component in n = p[0]^k[0] * p[1]^k[1] * ...
 type Factor struct {
-	p, k int
+	P, K int
 }
 
 // Factorize factorize n, assuming n < Max * Max.

@@ -5,6 +5,7 @@ import (
 	"math"
 )
 
+// Ball is a sphere in 3D space.
 type Ball struct {
 	Point
 	R float64
@@ -64,7 +65,7 @@ func det(m [][]float64) (res float64) {
 	return res
 }
 
-// Ball4
+// Ball4 returns a ball passing 4 points.
 func Ball4(ps [4]Point) *Ball {
 	s := [][]float64{}
 	for i := 0; i < 4; i++ {

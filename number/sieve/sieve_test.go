@@ -47,11 +47,11 @@ func TestFactorize(t *testing.T) {
 		fs := Factorize(n)
 		m := 1
 		for _, f := range fs {
-			if !IsPrime(f.p) {
-				t.Errorf("Factorize %d, got factor %d which is not a prime.", n, f.p)
+			if !IsPrime(f.P) {
+				t.Errorf("Factorize %d, got factor %d which is not a prime.", n, f.P)
 			}
-			for k := 0; k < f.k; k++ {
-				m *= f.p
+			for k := 0; k < f.K; k++ {
+				m *= f.P
 			}
 		}
 		if n != m {

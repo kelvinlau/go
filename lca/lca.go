@@ -5,6 +5,7 @@ import (
 	"unsafe"
 )
 
+// Tree is where the lca queries on.
 type Tree struct {
 	n  int
 	lg int
@@ -17,6 +18,7 @@ type node struct {
 	adj []*node
 }
 
+// NewTree returns an n-singleton florest.
 func NewTree(n int) *Tree {
 	lg := 1
 	for d := 1; d < n; d <<= 1 {
@@ -36,6 +38,7 @@ func NewTree(n int) *Tree {
 	return t
 }
 
+// Link adds an undirected edge (u, v).
 func (t *Tree) Link(u, v int) {
 	x := &t.ns[u]
 	y := &t.ns[v]
@@ -43,6 +46,7 @@ func (t *Tree) Link(u, v int) {
 	y.adj = append(y.adj, x)
 }
 
+// Build finalizes the tree, and pre-computes for lca queries.
 func (t *Tree) Build() {
 	t.build(&t.ns[0], &t.ns[0], 0)
 	for d := 1; d < t.lg; d++ {
@@ -63,6 +67,7 @@ func (t *Tree) build(u, p *node, d int) {
 	}
 }
 
+// Lca returns the lca of u, v.
 func (t *Tree) Lca(u, v int) int {
 	x := &t.ns[u]
 	y := &t.ns[v]
@@ -93,6 +98,7 @@ func (t *Tree) lca(x, y *node) *node {
 	return x
 }
 
+// Dist returns the distant from u to v.
 func (t *Tree) Dist(u, v int) int {
 	x := &t.ns[u]
 	y := &t.ns[v]

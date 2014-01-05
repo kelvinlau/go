@@ -34,6 +34,7 @@ type SAM struct {
 	start *node
 }
 
+// New contructs an empty SAM.
 func New() *SAM {
 	return &SAM{
 		start: empty(0),
